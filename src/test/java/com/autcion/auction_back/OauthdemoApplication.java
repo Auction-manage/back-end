@@ -1,13 +1,13 @@
 package com.autcion.auction_back;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootApplication
-public class OauthdemoApplication {
+@SpringBootTest
+class AuctionBackApplicationTests {
 
-	public static void main(String[] args) {
-		SpringApplication.run(OauthdemoApplication.class, args);
+	@Test
+	void contextLoads() {
 	}
 
 }
