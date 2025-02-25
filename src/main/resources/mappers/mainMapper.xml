@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.autcion.auction_back.MainPage.dao.MainMapper">
+
+    <!-- insertWishList --> 
+    <insert id="insertWishList"
+            parameterType="com.autcion.auction_back.MainPage.domain.WishListsDTO">
+        INSERT INTO wishlists (
+            user_id,
+            item_id
+        ) VALUES (
+            #{user_id},
+            #{item_id}
+        );
+    </insert>
+
+    <!-- insertMarketWishList --> 
+    <insert id="insertMarketWishList"
+            parameterType="com.autcion.auction_back.MainPage.domain.MarketWishListsDTO">
+        INSERT INTO market_wishlists (
+            user_id,
+            item_id
+        ) VALUES (
+            #{user_id},
+            #{item_id}
+        );
+    </insert>    
+
+    <!-- deleteWishList --> 
+    <delete id="deleteWishList"
+            parameterType="Integer">
+        DELETE FROM wishlists
+        WHERE wishlist_id = #{wishlist_id}
+    </delete>
+    
+    <!-- deleteMarketWishList --> 
+    <delete id="deleteMarketWishList"
+            parameterType="Integer">
+        DELETE FROM market_wishlists
+        WHERE wishlist_id = #{wishlist_id}
+    </delete>    
+
+    <!-- selectWishList --> 
+    <select id="selectWishList"
+            parameterType="Integer"
+            resultType="com.autcion.auction_back.MainPage.domain.WishListsDTO">
+        SELECT item_id
+        FROM wishlists
+        WHERE user_id = #{user_id}
+        ORDER BY created_at DESC
+        LIMIT 3;
+    </select>
+
+    <!-- selectMarketWishList --> 
+    <select id="selectMarketWishList"
+            parameterType="Integer"
+            resultType="com.autcion.auction_back.MainPage.domain.MarketWishListsDTO">
+        SELECT item_id
+        FROM market_wishlists
+        WHERE user_id = #{user_id}
+        ORDER BY created_at DESC
+        LIMIT 3;
+    </select>
+
+    <!-- insertMileage --> 
+    <insert id="insertMileage"
+            parameterType="com.autcion.auction_back.MainPage.domain.MileageDTO">
+        INSERT INTO mileage (
+            user_id,
+            amount
+        ) VALUES (
+            #{user_id},
+            #{amount}
+        );
+    </insert>
+
+    <!-- selectMileage --> 
+    <select id="selectMileage"
+            parameterType="Integer"
+            resultType="Integer">
+        SELECT SUM(amount)
+        FROM mileage
+        WHERE user_id = #{user_id};
+    </select>
+
+    <!-- useMileage --> 
+    <insert id="useMileage"
+            parameterType="com.autcion.auction_back.MainPage.domain.MileageDTO">
+        INSERT INTO mileage (
+            user_id,
+            amount
+        ) VALUES (
+            #{user_id},
+            #{amount}
+        );
+    </insert>    
+
+    <!-- selectMileageHistory --> 
+    <select id="selectMileageHistory"
+            parameterType="Integer"
+            resultType="com.autcion.auction_back.MainPage.domain.MileageDTO">
+        SELECT amount, created_at
+        FROM mileate
+        WHERE user_id = #{user_id}
+        ORDER BY created_at DESC;
+    </select>
+
+</mapper>
