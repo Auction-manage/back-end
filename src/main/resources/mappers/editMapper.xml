@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.autcion.auction_back.EditPage.dao.EditMapper">
+
+    <!-- insertInquiry --> 
+    <insert id="insertInquiry"
+            parameterType="com.autcion.auction_back.EditPage.domain.InquiriesDTO">
+        INSERT INTO inquiries (
+            author_id,
+            title,
+            content,
+            response_status,
+            response
+        ) VALUES (
+            #{author_id},
+            #{title},
+            #{content},
+            "pending",
+            ""
+        );
+    </insert>
+
+    <!-- updateInquiry --> 
+    <update id="updateInquiry"
+            parameterType="com.autcion.auction_back.EditPage.domain.InquiriesDTO">
+        UPDATE inquiries
+        SET response_status = "answered",
+            response = #{response}
+        WHERE inquiry_id = #{inquiry_id}
+    </update>    
+
+    <!-- selectInquiryByUser --> 
+    <select id="selectInquiryByUser">
+        SELECT title, content, created_at, response
+        FROM inquiries
+        WHERE author_id = #{user_id};
+    </select>    
+
+    <!-- selectInquiryByAdmin --> 
+    <select id="selectInquiryByAdmin">
+        SELECT *
+        FROM inquiries;
+    </select>    
+
+    <!-- selectTransaction --> 
+    <select id="selectTransaction">
+        SELECT *
+        FROM transaction_info;
+    </select>    
+
+    <!-- updateTransaction --> 
+    <update id="updateTransaction">
+        UPDATE transaction_info
+        SET tracking_number1 = #{tracking_number1},
+            tracking_number2 = #{tracking_number2},
+            tracking_number3 = #{tracking_number3},
+            tracking_number4 = #{tracking_number4}
+        WHERE transaction_id = #{transaction_id}
+    </update>    
+</mapper>
