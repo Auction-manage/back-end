@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autcion.auction_back.transaction.DAO.TransactionMapper">
+
+    <insert id="insertTransaction" parameterType="com.autcion.auction_back.transaction.DTO.TransactionDTO">
+        INSERT INTO transaction_info (buyer_id, buyer_nickname, buyer_address, buyer_phone,
+                                    seller_id, seller_nickname, seller_address, seller_phone)
+        VALUES (#{buyerId}, #{buyerNickname}, #{buyerAddress}, #{buyerPhone},
+                #{sellerId}, #{sellerNickname}, #{sellerAddress}, #{sellerPhone})
+    </insert>
+</mapper>

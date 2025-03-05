@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autcion.auction_back.auctionpage.DAO.AuctionItemMapper">
+
+    <select id="selectAvailableAuctionItems" resultType="com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO">
+        SELECT item_id AS itemId, seller_id AS sellerId, seller_nickname AS sellerNickname,
+               title, description, start_price AS startPrice, current_price AS currentPrice,
+               end_time AS endTime, status
+        FROM auction_items
+        WHERE status = 'active'
+    </select>
+
+    <select id="selectAuctionItemDetail" resultType="com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO">
+        SELECT item_id AS itemId, seller_id AS sellerId, seller_nickname AS sellerNickname,
+               title, description, start_price AS startPrice, current_price AS currentPrice,
+               end_time AS endTime, status
+        FROM auction_items
+        WHERE item_id = #{itemId}
+    </select>
+
+    <insert id="insertAuctionItem" parameterType="com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO">
+        INSERT INTO auction_items (seller_id, seller_nickname, title, description, start_price, current_price, end_time, status)
+        VALUES (#{sellerId}, #{sellerNickname}, #{title}, #{description}, #{startPrice}, #{currentPrice}, #{endTime}, #{status})
+    </insert>
+
+    <update id="updateAuctionItem" parameterType="com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO">
+        UPDATE auction_items
+        SET seller_id = #{sellerId}, seller_nickname = #{sellerNickname},
+            title = #{title}, description = #{description}, start_price = #{startPrice},
+            current_price = #{currentPrice}, end_time = #{endTime}, status = #{status}
+        WHERE item_id = #{itemId}
+    </update>
+
+    <delete id="deleteAuctionItem" parameterType="Long">
+        DELETE FROM auction_items WHERE item_id = #{itemId}
+    </delete>
+</mapper>

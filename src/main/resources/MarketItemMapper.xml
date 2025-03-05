@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autcion.auction_back.marketpage.DAO.MarketItemMapper">
+
+    <select id="selectAvailableMarketItems" resultType="com.autcion.auction_back.marketpage.DTO.MarketItemDTO">
+        SELECT item_id AS itemId, title, description, price, status
+        FROM market_items
+        WHERE status = 'available'
+    </select>
+
+    <select id="selectMarketItemDetail" resultType="com.autcion.auction_back.marketpage.DTO.MarketItemDTO">
+        SELECT item_id AS itemId, title, description, price, status
+        FROM market_items
+        WHERE item_id = #{itemId}
+    </select>
+
+    <insert id="insertMarketItem" parameterType="com.autcion.auction_back.marketpage.DTO.MarketItemDTO">
+        INSERT INTO market_items (title, description, price, status)
+        VALUES (#{title}, #{description}, #{price}, #{status})
+    </insert>
+
+    <update id="updateMarketItem" parameterType="com.autcion.auction_back.marketpage.DTO.MarketItemDTO">
+        UPDATE market_items
+        SET title = #{title}, description = #{description}, price = #{price}, status = #{status}
+        WHERE item_id = #{itemId}
+    </update>
+
+    <delete id="deleteMarketItem" parameterType="Long">
+        DELETE FROM market_items WHERE item_id = #{itemId}
+    </delete>
+</mapper>

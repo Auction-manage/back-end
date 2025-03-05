@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autcion.auction_back.marketpage.DAO.MarketImageMapper">
+
+    <insert id="saveMarketImage" parameterType="com.autcion.auction_back.marketpage.DTO.MarketImageDTO">
+        INSERT INTO market_image (item_id, image_url)
+        VALUES (#{itemId}, #{imageUrl})
+    </insert>
+
+    <select id="getMarketImage" resultType="com.autcion.auction_back.marketpage.DTO.MarketImageDTO">
+        SELECT image_id AS imageId, item_id AS itemId, image_url AS imageUrl
+        FROM market_image
+        WHERE item_id = #{itemId}
+    </select>
+
+    <delete id="deleteMarketImage" parameterType="Long">
+        DELETE FROM market_image WHERE image_id = #{imageId}
+    </delete>
+
+    <update id="updateMarketImage" parameterType="com.autcion.auction_back.marketpage.DTO.MarketImageDTO">
+        UPDATE market_image
+        SET image_url = #{imageUrl}
+        WHERE image_id = #{imageId}
+    </update>
+</mapper>
