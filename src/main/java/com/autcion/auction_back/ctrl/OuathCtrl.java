@@ -1,4 +1,4 @@
-package com.oauth.oauthdemo.ctrl;
+package com.autcion.auction_back.ctrl;
 
 import java.util.Optional;
 
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oauth.oauthdemo.domain.LoginDto;
-import com.oauth.oauthdemo.domain.RegisterDto;
-import com.oauth.oauthdemo.domain.UserLoginEntity;
-import com.oauth.oauthdemo.service.LoginService;
-import com.oauth.oauthdemo.service.RegisterService;
+import com.autcion.auction_back.domain.LoginDto;
+import com.autcion.auction_back.domain.RegisterDto;
+import com.autcion.auction_back.domain.UserLoginEntity;
+import com.autcion.auction_back.service.LoginService;
+import com.autcion.auction_back.service.RegisterService;
 @RestController
 public class OuathCtrl {
 

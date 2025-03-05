@@ -1,4 +1,4 @@
-package com.oauth.oauthdemo.config.handler;
+package com.autcion.auction_back.config.handler;
 
 import java.io.IOException;
 

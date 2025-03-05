@@ -1,4 +1,4 @@
-package com.oauth.oauthdemo.domain;
+package com.autcion.auction_back.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

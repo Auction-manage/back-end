@@ -1,4 +1,4 @@
-package com.oauth.oauthdemo.config.handler;
+package com.autcion.auction_back.config.handler;
 
 import java.io.IOException;
 import java.util.Map;
@@ -9,8 +9,8 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import com.oauth.oauthdemo.domain.OauthUserEntity;
-import com.oauth.oauthdemo.service.UserService;
+import com.autcion.auction_back.domain.OauthUserEntity;
+import com.autcion.auction_back.service.UserService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

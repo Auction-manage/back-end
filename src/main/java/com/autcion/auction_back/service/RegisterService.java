@@ -1,13 +1,13 @@
-package com.oauth.oauthdemo.service;
+package com.autcion.auction_back.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.oauth.oauthdemo.dao.UserResisterRepository;
-import com.oauth.oauthdemo.domain.RegisterDto;
-import com.oauth.oauthdemo.domain.UserRegisterEntity;
+import com.autcion.auction_back.dao.UserResisterRepository;
+import com.autcion.auction_back.domain.RegisterDto;
+import com.autcion.auction_back.domain.UserRegisterEntity;
 
 @Service
 public class RegisterService {
@@ -19,7 +19,7 @@ public class RegisterService {
         System.out.println("debug >>>> registerService ");
 
         UserRegisterEntity userRegisterEntity = UserRegisterEntity.builder()
-            .username(registerDto.getUsername())
+            .loginId(registerDto.getLoginId())
             .password(registerDto.getPassword())
             .name(registerDto.getName())
             .nickname(registerDto.getNickname())

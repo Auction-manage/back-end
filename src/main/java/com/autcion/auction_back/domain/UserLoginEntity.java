@@ -1,4 +1,4 @@
-package com.oauth.oauthdemo.domain;
+package com.autcion.auction_back.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,8 +18,8 @@ import lombok.NoArgsConstructor;
 public class UserLoginEntity {
 
     @Id
-    @Column(name = "username")
-    private String username;
+    @Column(name = "login_id")
+    private String loginId;
 
     @Column(name = "password")
     private String password;

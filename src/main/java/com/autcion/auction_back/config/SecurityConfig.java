@@ -1,4 +1,4 @@
-package com.oauth.oauthdemo.config;
+package com.autcion.auction_back.config;
 
 import java.util.Arrays;
 
@@ -11,9 +11,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.oauth.oauthdemo.config.handler.FailureHandler;
-import com.oauth.oauthdemo.config.handler.SuccessHandler;
-import com.oauth.oauthdemo.service.UserService;
+import com.autcion.auction_back.config.handler.FailureHandler;
+import com.autcion.auction_back.config.handler.SuccessHandler;
+import com.autcion.auction_back.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
