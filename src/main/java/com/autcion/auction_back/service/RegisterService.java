@@ -5,33 +5,24 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.autcion.auction_back.dao.UserResisterRepository;
+import com.autcion.auction_back.dao.UsersMapper;
 import com.autcion.auction_back.domain.RegisterDto;
-import com.autcion.auction_back.domain.UserRegisterEntity;
 
 @Service
 public class RegisterService {
 
+
     @Autowired
-    private UserResisterRepository userResisterRepository;
+    private UsersMapper usersMapper;
+
 
     public String register(RegisterDto registerDto) {
-        System.out.println("debug >>>> registerService ");
+        System.out.println("debug >>>> registerService register1");
 
-        UserRegisterEntity userRegisterEntity = UserRegisterEntity.builder()
-            .loginId(registerDto.getLoginId())
-            .password(registerDto.getPassword())
-            .name(registerDto.getName())
-            .nickname(registerDto.getNickname())
-            .phone(registerDto.getPhone())
-            .email(registerDto.getEmail())
-            .address(registerDto.getAddress())
-            .build();
-        
         try {
-            userResisterRepository.save(userRegisterEntity);
-            System.out.println("debug >>>> registerService register success ");
-            return "success";
+            Integer result = usersMapper.registerRow(registerDto);
+            System.out.println("Mapper result : " + result);
+            return result > 0 ? "success" : "fail";
         } catch (DataIntegrityViolationException dive) {
             System.out.println("debug >>>> registerService duplicate data error: " + dive.getMessage());
             return "duplicate_data_error";

@@ -1,19 +1,23 @@
 package com.autcion.auction_back;
 
-import java.util.Optional;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 
+import com.autcion.auction_back.dao.ProfileDao;
+import com.autcion.auction_back.domain.AuctionDataDto;
 import com.autcion.auction_back.domain.LoginDto;
 import com.autcion.auction_back.domain.RegisterDto;
-import com.autcion.auction_back.domain.UserLoginEntity;
 import com.autcion.auction_back.service.LoginService;
+import com.autcion.auction_back.service.ProfileService;
 import com.autcion.auction_back.service.RegisterService;
+import com.autcion.auction_back.service.SaleHistoryService;
 import com.autcion.auction_back.service.UserService;
 
 import jakarta.transaction.Transactional;
@@ -32,8 +36,29 @@ class OauthdemoApplication{
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private ProfileService profileService;
+
+	@Autowired
+	private SaleHistoryService saleHistoryService;
+
 	@Test
 	void contextLoads() {
+	}
+
+	@Test
+	@DisplayName("로그인 테스트")
+	public void testLogin() {
+		LoginDto loginDto = LoginDto.builder()
+									.loginId("test1")
+									.password("test1")
+									.build();
+		System.out.println("LoginDto created: " + loginDto);
+		
+		String result = loginService.login(loginDto);
+		System.out.println("Login result: " + result);
+
+		assertEquals("success", result, "로그인에에 실패했습니다. 반환된 결과: " + result);
 	}
 
 	@Test
@@ -44,9 +69,9 @@ class OauthdemoApplication{
 												.loginId("test")
 												.password("test")
 												.name("test")
-												.nickname("test")
-												.phone("test")
-												.email("test@test.com")
+												.nickname("test1")
+												.phone("test1")
+												.email("test@test1.com")
 												.address("test")
 												.build();
 			System.out.println("RegisterDto created: " + registerDto);
@@ -89,18 +114,22 @@ class OauthdemoApplication{
 	}
 
 	@Test
-	@DisplayName("로그인 테스트")
-	public void testLogin() {
-		LoginDto loginDto = LoginDto.builder()
-									.loginId("test1")
-									.password("test1")
-									.build();
-		System.out.println("LoginDto created: " + loginDto);
-		
-		Optional<UserLoginEntity> result = loginService.login(loginDto);
-		System.out.println("Login result: " + result);
+	@DisplayName("프로필 조회")
+	public void testProfile() {
+		String username = "test";
+		ProfileDao profile = profileService.profile(username);
+		System.out.println("Profile: " + profile);
 
-		assertEquals(true, result.isPresent(), "로그인이 실패했습니다. 반환된 결과: " + result);
+		assertEquals("test", profile.getName(), "프로필 조회에 실패했습니다. 반환된 결과: " + profile);
 	}
 
+	@Test
+	@DisplayName("판매 내역 조회")
+	public void testSaleHistory() {
+		String nickname = "test";
+		List<AuctionDataDto> auctionData = saleHistoryService.getAuctionData("3");
+		System.out.println("AuctionData: " + auctionData);
+		
+		assertTrue(auctionData.size() >= 1, "판매 내역 조회에 실패했습니다. 반환된 결과: " + auctionData);
+	}
 }

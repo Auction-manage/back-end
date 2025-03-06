@@ -1,31 +1,27 @@
 package com.autcion.auction_back.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.autcion.auction_back.dao.UserLoginRepository;
+import com.autcion.auction_back.dao.UsersMapper;
 import com.autcion.auction_back.domain.LoginDto;
-import com.autcion.auction_back.domain.UserLoginEntity;
-
 
 @Service
 public class LoginService {
 
     @Autowired
-    private UserLoginRepository userLoginRepository;
+    private UsersMapper usersMapper;
 
-    public Optional<UserLoginEntity> login(LoginDto loginDto) {
-        System.out.println("debug >>>> loginService ");
+    public String login(LoginDto loginDto) {
+        System.out.println("Login1 service start" + loginDto);
 
-        Optional<UserLoginEntity> user = userLoginRepository.findByLoginId(loginDto.getLoginId());
-        if(user.isPresent()) {
-            if(user.get().getPassword().equals(loginDto.getPassword())) {
-                return user;
-            }
-        }
-        return Optional.empty();
+        Integer result = usersMapper.loginRow(loginDto);
+
+        System.out.println("Mapper result : " + result);
+        
+        System.out.println("debug >>>> loginService login1 result : " + result);
+        
+        return result > 0 ? "success" : "fail";
     }
 
 }

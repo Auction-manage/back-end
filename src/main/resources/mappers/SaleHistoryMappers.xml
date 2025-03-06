@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.autcion.auction_back.dao.SaleHistoryMapper">
+
+    <select id="AuctionDataRow" parameterType="String" resultType="com.autcion.auction_back.domain.AuctionDataDto">
+        SELECT * FROM auction_items WHERE seller_id = #{nickname}
+    </select>
+
+    <select id="MarketDataRow" parameterType="String" resultType="com.autcion.auction_back.domain.MarketDataDto">
+        SELECT * FROM market_items WHERE seller_id = #{nickname}
+    </select>
+
+</mapper>
