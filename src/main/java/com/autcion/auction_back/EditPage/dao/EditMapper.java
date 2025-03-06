@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.autcion.auction_back.EditPage.domain.BannerDTO;
 import com.autcion.auction_back.EditPage.domain.InquiriesDTO;
+import com.autcion.auction_back.EditPage.domain.NoticeDTO;
+import com.autcion.auction_back.EditPage.domain.ThemeDTO;
 import com.autcion.auction_back.EditPage.domain.TransactionInfoDTO;
 
 @Mapper
@@ -21,5 +24,13 @@ public interface EditMapper {
     public List<TransactionInfoDTO> selectTransaction();
 
     public void updateTransaction(TransactionInfoDTO transactionInfoDTO);
+
+    public void updateTheme(ThemeDTO themeDTO);
+
+    public void updateBanner(BannerDTO bannerDTO);
+
+    public void insertNotice (NoticeDTO noticeDTO);
+
+    
     
 }

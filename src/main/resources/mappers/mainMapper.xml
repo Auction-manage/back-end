@@ -6,7 +6,7 @@
     <!-- insertWishList --> 
     <insert id="insertWishList"
             parameterType="com.autcion.auction_back.MainPage.domain.WishListsDTO">
-        INSERT INTO wishlists (
+        INSERT INTO auction_wishlists (
             user_id,
             item_id
         ) VALUES (
@@ -30,7 +30,7 @@
     <!-- deleteWishList --> 
     <delete id="deleteWishList"
             parameterType="Integer">
-        DELETE FROM wishlists
+        DELETE FROM auction_wishlists
         WHERE wishlist_id = #{wishlist_id}
     </delete>
     
@@ -46,7 +46,7 @@
             parameterType="Integer"
             resultType="com.autcion.auction_back.MainPage.domain.WishListsDTO">
         SELECT item_id
-        FROM wishlists
+        FROM auction_wishlists
         WHERE user_id = #{user_id}
         ORDER BY created_at DESC
         LIMIT 3;
@@ -101,7 +101,7 @@
             parameterType="Integer"
             resultType="com.autcion.auction_back.MainPage.domain.MileageDTO">
         SELECT amount, created_at
-        FROM mileate
+        FROM mileage
         WHERE user_id = #{user_id}
         ORDER BY created_at DESC;
     </select>

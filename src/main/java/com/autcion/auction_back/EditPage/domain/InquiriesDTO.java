@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InquiriesDTO {
-    public int inquiry_id;
-    public int author_id;
-    public String title;
-    public String content;
-    public String created_at;
-    public String  response_status;
-    public String response;
+    private int inquiry_id;
+    private int user_id;
+    private String title;
+    private String content;
+    private String response_status;
+    private String response;
+    private String created_at;
 }
