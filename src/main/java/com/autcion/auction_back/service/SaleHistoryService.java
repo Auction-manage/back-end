@@ -1,8 +1,9 @@
 package com.autcion.auction_back.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 import com.autcion.auction_back.dao.SaleHistoryMapper;
 import com.autcion.auction_back.domain.AuctionDataDto;
@@ -14,16 +15,16 @@ public class SaleHistoryService {
     @Autowired
     private SaleHistoryMapper saleHistoryMapper;
 
-    public List<AuctionDataDto> getAuctionData(String nickname) {
+    public List<AuctionDataDto> getAuctionData(String user_id) {
 
-        List<AuctionDataDto> auctionData = saleHistoryMapper.AuctionDataRow(nickname);
+        List<AuctionDataDto> auctionData = saleHistoryMapper.AuctionDataRow(user_id);
 
         return auctionData;
     }
 
-    public MarketDataDto getMarketData(String nickname) {
+    public MarketDataDto getMarketData(Integer user_id) {
 
-        MarketDataDto marketData = saleHistoryMapper.MarketDataRow(nickname);
+        MarketDataDto marketData = saleHistoryMapper.MarketDataRow(user_id);
 
         return marketData;
     }

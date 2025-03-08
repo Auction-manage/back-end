@@ -1,22 +1,22 @@
 package com.autcion.auction_back.ctrl;
 
-import org.springframework.http.ResponseEntity;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.List;import java.util.List;
+
 import com.autcion.auction_back.dao.ProfileDao;
+import com.autcion.auction_back.domain.AuctionDataDto;
 import com.autcion.auction_back.domain.LoginDto;
 import com.autcion.auction_back.domain.RegisterDto;
 import com.autcion.auction_back.service.LoginService;
 import com.autcion.auction_back.service.ProfileService;
 import com.autcion.auction_back.service.RegisterService;
-import com.autcion.auction_back.domain.AuctionDataDto;
-import com.autcion.auction_back.domain.MarketDataDto;
 import com.autcion.auction_back.service.SaleHistoryService;
 
 @RestController
@@ -75,15 +75,29 @@ public class OuathCtrl {
         return ResponseEntity.ok(result);
     }
 
+    @PostMapping("/profile/update")
+    public ProfileDao updateProfile(@RequestBody RegisterDto registerDto) {
+
+        RegisterDto result = profileService.updateProfile(registerDto);
+
+        System.out.println("debug >>>> result " + result);
+
+        ProfileDao updateResult = profileService.profile(result.getNickname());
+
+        return updateResult;
+        
+    }
+
     @GetMapping("/sale/history")
-    public List<AuctionDataDto> salehistories(@RequestParam String nickname) {
+    public List<AuctionDataDto> salehistories(@RequestParam String user_id) {
         System.out.println("debug >>>> salehistory");
 
-        List<AuctionDataDto> auctionData = saleHistoryService.getAuctionData(nickname);
+        List<AuctionDataDto> auctionData = saleHistoryService.getAuctionData(user_id);
 
         // MarketDataDto marketData = saleHistoryService.getMarketData(nickname);
 
         return auctionData;
     }
+
 
 }

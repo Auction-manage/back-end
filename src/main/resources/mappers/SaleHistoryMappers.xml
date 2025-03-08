@@ -4,11 +4,11 @@
 <mapper namespace="com.autcion.auction_back.dao.SaleHistoryMapper">
 
     <select id="AuctionDataRow" parameterType="String" resultType="com.autcion.auction_back.domain.AuctionDataDto">
-        SELECT * FROM auction_items WHERE seller_id = #{nickname}
+        SELECT * FROM auction_items WHERE seller_id = #{user_id}
     </select>
 
     <select id="MarketDataRow" parameterType="String" resultType="com.autcion.auction_back.domain.MarketDataDto">
-        SELECT * FROM market_items WHERE seller_id = #{nickname}
+        SELECT * FROM market_items WHERE user_id = #{user_id}
     </select>
 
 </mapper>

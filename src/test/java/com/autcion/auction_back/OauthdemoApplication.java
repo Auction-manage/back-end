@@ -3,6 +3,7 @@ package com.autcion.auction_back;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,13 +67,13 @@ class OauthdemoApplication{
 	public void testRegister() {
 		try {
 			RegisterDto registerDto = RegisterDto.builder()
-												.loginId("test")
+												.loginId("test123")
 												.password("test")
-												.name("test")
-												.nickname("test1")
-												.phone("test1")
-												.email("test@test1.com")
-												.address("test")
+												.name("test123")
+												.nickname("test123")
+												.phone("test123")
+												.email("test123@test123.com")
+												.address("test123")
 												.build();
 			System.out.println("RegisterDto created: " + registerDto);
 			
@@ -122,12 +123,32 @@ class OauthdemoApplication{
 
 		assertEquals("test", profile.getName(), "프로필 조회에 실패했습니다. 반환된 결과: " + profile);
 	}
+	
+	@Test
+	@DisplayName("프로필 수정")
+	public void testUpdateProfile() {
+		RegisterDto registerDto = RegisterDto.builder()
+				.name("test1234")
+				.nickname("test123")
+				.email("test1234@test123.com")
+				.phone("test1234")
+				.address("test1234")
+				.build();
+				
+		RegisterDto result = profileService.updateProfile(registerDto);
 
+		System.out.println("UpdateProfile: " + result);
+		
+		assertNotNull(result, "프로필 수정에 실패했습니다.");
+		assertEquals("test1234", result.getName(), "이름이 일치하지 않습니다.");
+	}
+	
+	
 	@Test
 	@DisplayName("판매 내역 조회")
 	public void testSaleHistory() {
-		String nickname = "test";
-		List<AuctionDataDto> auctionData = saleHistoryService.getAuctionData("3");
+		String userId = "3";
+		List<AuctionDataDto> auctionData = saleHistoryService.getAuctionData(userId);
 		System.out.println("AuctionData: " + auctionData);
 		
 		assertTrue(auctionData.size() >= 1, "판매 내역 조회에 실패했습니다. 반환된 결과: " + auctionData);

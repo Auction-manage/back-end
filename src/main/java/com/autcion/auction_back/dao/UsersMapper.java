@@ -13,4 +13,6 @@ public interface UsersMapper {
     public Integer registerRow(RegisterDto registerDto);
     
     public ProfileDao profileRow(String username);
+
+    public int updateProfileRow(RegisterDto registerDto);
 }

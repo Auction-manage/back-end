@@ -27,4 +27,13 @@
     <select id="profileRow" parameterType="String" resultType="com.autcion.auction_back.dao.ProfileDao">
         SELECT * FROM users WHERE name = #{username}
     </select>
-</mapper>
+
+    <!-- updateProfileRow --> 
+
+    <update id="updateProfileRow" parameterType="com.autcion.auction_back.domain.RegisterDto">
+        UPDATE users 
+        SET name = #{name}, nickname = #{nickname}, email = #{email}, phone = #{phone}, address = #{address}
+        WHERE nickname = #{nickname}
+    </update>
+    
+    </mapper>
