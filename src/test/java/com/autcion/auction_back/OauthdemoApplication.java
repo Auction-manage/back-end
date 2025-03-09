@@ -67,13 +67,13 @@ class OauthdemoApplication{
 	public void testRegister() {
 		try {
 			RegisterDto registerDto = RegisterDto.builder()
-												.loginId("test123")
+												.loginId("test")
 												.password("test")
-												.name("test123")
-												.nickname("test123")
-												.phone("test123")
-												.email("test123@test123.com")
-												.address("test123")
+												.name("test")
+												.nickname("test1")
+												.phone("test1")
+												.email("test1@test1.com")
+												.address("test")
 												.build();
 			System.out.println("RegisterDto created: " + registerDto);
 			
