@@ -5,9 +5,11 @@ import lombok.Data;
 
 @Data
 @Builder
-public class AuctionDataDto {
+public class AuctionWishListDto {
+    private String user_id;
     private String item_id;
-    private String seller_id;
+    private String created_at;
+    
     private String seller_nickname;
     private String title;
     private String description;
@@ -15,7 +17,5 @@ public class AuctionDataDto {
     private String current_price;
     private String end_time;
     private String status;
-    private String created_at;
-    private String updated_at;
-
+    private String seller_id;
 }

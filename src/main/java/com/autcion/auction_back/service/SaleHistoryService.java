@@ -22,9 +22,9 @@ public class SaleHistoryService {
         return auctionData;
     }
 
-    public MarketDataDto getMarketData(Integer user_id) {
+    public List<MarketDataDto> getMarketData(String user_id) {
 
-        MarketDataDto marketData = saleHistoryMapper.MarketDataRow(user_id);
+        List<MarketDataDto> marketData = saleHistoryMapper.MarketDataRow(user_id);
 
         return marketData;
     }

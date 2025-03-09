@@ -15,4 +15,10 @@ public interface UsersMapper {
     public ProfileDao profileRow(String username);
 
     public int updateProfileRow(RegisterDto registerDto);
+
+    public String recoverIdRow(RegisterDto param);
+
+    public Integer recoverPasswordRow(RegisterDto param);
+
+    public int updatePasswordRow(RegisterDto param);
 }

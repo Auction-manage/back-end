@@ -13,11 +13,15 @@ import org.springframework.context.annotation.ComponentScan;
 
 import com.autcion.auction_back.dao.ProfileDao;
 import com.autcion.auction_back.domain.AuctionDataDto;
+import com.autcion.auction_back.domain.AuctionWishListDto;
 import com.autcion.auction_back.domain.LoginDto;
+import com.autcion.auction_back.domain.MarketDataDto;
+import com.autcion.auction_back.domain.MarketWishListDto;
 import com.autcion.auction_back.domain.RegisterDto;
 import com.autcion.auction_back.service.LoginService;
 import com.autcion.auction_back.service.ProfileService;
 import com.autcion.auction_back.service.RegisterService;
+import com.autcion.auction_back.service.RecoverService;
 import com.autcion.auction_back.service.SaleHistoryService;
 import com.autcion.auction_back.service.UserService;
 
@@ -42,6 +46,9 @@ class OauthdemoApplication{
 
 	@Autowired
 	private SaleHistoryService saleHistoryService;
+
+	@Autowired
+	private RecoverService recoverService;
 
 	@Test
 	void contextLoads() {
@@ -142,6 +149,17 @@ class OauthdemoApplication{
 		assertNotNull(result, "프로필 수정에 실패했습니다.");
 		assertEquals("test1234", result.getName(), "이름이 일치하지 않습니다.");
 	}
+
+	@Test
+	@DisplayName("찜 목록 조회")
+	public void testCheckWishList() {
+		String userId = "3";
+		List<AuctionWishListDto> auctionData = profileService.checkWishList(userId);
+		System.out.println("AuctionData: " + auctionData);
+		
+		List<MarketWishListDto> marketData = profileService.checkMarketWishList(userId);
+		System.out.println("MarketData: " + marketData);
+	}
 	
 	
 	@Test
@@ -150,7 +168,48 @@ class OauthdemoApplication{
 		String userId = "3";
 		List<AuctionDataDto> auctionData = saleHistoryService.getAuctionData(userId);
 		System.out.println("AuctionData: " + auctionData);
+
+		List<MarketDataDto> marketData = saleHistoryService.getMarketData(userId);
+		System.out.println("MarketData: " + marketData);
 		
 		assertTrue(auctionData.size() >= 1, "판매 내역 조회에 실패했습니다. 반환된 결과: " + auctionData);
+	}
+
+	@Test
+	@DisplayName("아이디 찾기")
+	public void testRecoverId() {
+		RegisterDto registerDto = RegisterDto.builder()
+											.name("test")
+											.phone("test")
+											.build();
+		String result = recoverService.recoverId(registerDto);
+		System.out.println("RecoverId: " + result);
+	}
+	
+	@Test
+	@DisplayName("비밀번호 찾기")
+	public void testRecoverord() {
+
+		RegisterDto registerDto = RegisterDto.builder()
+											.loginId("test1")
+											.name("test")
+											.phone("test")
+											.build();
+
+		String result = recoverService.recoverPassword(registerDto);
+
+		System.out.println("UpdatePassword: " + result);
+
+		if(result.equals("success")) {
+			RegisterDto registerDto1 = RegisterDto.builder()
+													.loginId("test123")
+													.password("test")
+													.build();
+
+			String result1 = recoverService.updatePassword(registerDto1);
+			
+			System.out.println("UpdatePassword: " + result1);
+		}
+	
 	}
 }
