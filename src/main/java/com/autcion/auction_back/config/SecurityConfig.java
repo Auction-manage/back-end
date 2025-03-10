@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -14,6 +15,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.autcion.auction_back.config.handler.FailureHandler;
 import com.autcion.auction_back.config.handler.SuccessHandler;
 import com.autcion.auction_back.service.UserService;
+import com.autcion.auction_back.util.JwtAuthenticationFilter;
+import com.autcion.auction_back.util.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,34 +24,46 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
-
+    // 필요한 컴포넌트들 주입
     private final SuccessHandler successHandler;
     private final FailureHandler failureHandler;
-    private final UserService userService; 
+    private final UserService userService;
+    private final JwtUtil jwtUtil;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        System.out.println("Debug >>> SecurityConfig");
         return httpSecurity
-                .cors().and()
-                .csrf(csrf -> csrf.disable())
+                .cors().and()  // CORS 설정 활성화
+                .csrf(csrf -> csrf.disable())  // CSRF 보호 비활성화
                 .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/", "/login/**", "/WEB-INF/**", "/test", "/register").permitAll()
+                    // 인증없이 접근 가능한 경로 설정
+                    .requestMatchers("/", "/login/**", "/register", "/recover/**").permitAll()
+                    // 그 외 모든 요청은 인증 필요
                     .anyRequest().authenticated())
+                // JWT 인증 필터 추가
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                // OAuth2 로그인 설정
                 .oauth2Login(oauth -> oauth
-                                        .successHandler(successHandler)
-                                        .failureHandler(failureHandler)
-                                        .userInfoEndpoint(user -> user.userService(userService)))
+                    .successHandler(successHandler)
+                    .failureHandler(failureHandler)
+                    .userInfoEndpoint(user -> user.userService(userService)))
                 .build();
     }
 
+    // CORS 설정
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+        // 허용할 오리진(도메인) 설정
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        // 허용할 HTTP 메서드 설정
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        // 허용할 헤더 설정
         configuration.setAllowedHeaders(Arrays.asList("*"));
+        // 인증 정보 포함 허용
         configuration.setAllowCredentials(true);
+        
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

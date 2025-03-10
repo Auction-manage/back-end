@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,7 +49,7 @@ public class OuathCtrl {
     public String confirm() {
         return "confirm";
     }
-    
+
     @PostMapping("/register")
     public String register(@RequestBody RegisterDto registerDto) {
         System.out.println("debug >>>> registerDto " + registerDto);
@@ -61,16 +62,15 @@ public class OuathCtrl {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
         System.out.println("debug >>>> loginDto " + loginDto);
 
-        String result = loginService.login(loginDto);
-        System.out.println("debug >>>> result " + result);
+        Map<String, String> result = loginService.login(loginDto);
 
-        if(result.equals("success")) {
-            return "success";
+        if (result.get("status").equals("success")) {
+            return ResponseEntity.ok(result);
         } else {
-            return "fail";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
         }
     }
 
@@ -95,7 +95,7 @@ public class OuathCtrl {
         ProfileDao updateResult = profileService.profile(result.getNickname());
 
         return updateResult;
-        
+
     }
 
     @GetMapping("/profile/wishlist")
@@ -132,9 +132,9 @@ public class OuathCtrl {
         System.out.println("debug >>>> recoverId");
 
         RegisterDto param = RegisterDto.builder()
-                                        .name(name)
-                                        .phone(phone)
-                                        .build();
+                .name(name)
+                .phone(phone)
+                .build();
 
         String result = recoverService.recoverId(param);
 
@@ -146,10 +146,10 @@ public class OuathCtrl {
         System.out.println("debug >>>> recoverPassword");
 
         RegisterDto param = RegisterDto.builder()
-                                        .loginId(user_id)
-                                        .name(name)
-                                        .phone(phone)
-                                        .build();
+                .loginId(user_id)
+                .name(name)
+                .phone(phone)
+                .build();
 
         String result = recoverService.recoverPassword(param);
 
@@ -163,9 +163,9 @@ public class OuathCtrl {
         System.out.println("debug >>>> updatePassword");
 
         RegisterDto param = RegisterDto.builder()
-                                        .loginId(user_id)
-                                        .password(password)
-                                        .build();
+                .loginId(user_id)
+                .password(password)
+                .build();
 
         String result = recoverService.updatePassword(param);
 
