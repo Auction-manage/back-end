@@ -14,4 +14,5 @@ public class MarketWishListsDTO {
     public int user_id;
     public int item_id;
     public String created_at;
+    public int id;
 }
