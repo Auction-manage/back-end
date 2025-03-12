@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.autcion.auction_back.EditPage.dao.EditMapper">
+
+    <!-- insertInquiry --> 
+    <insert id="insertInquiry"
+            parameterType="com.autcion.auction_back.EditPage.domain.InquiriesDTO">
+        INSERT INTO inquiries (
+            user_id,
+            title,
+            content,
+            response_status,
+            response
+        ) VALUES (
+            #{user_id},
+            #{title},
+            #{content},
+            "pending",
+            ""
+        );
+    </insert>
+
+    <!-- updateInquiry --> 
+    <update id="updateInquiry"
+            parameterType="com.autcion.auction_back.EditPage.domain.InquiriesDTO">
+        UPDATE inquiries
+        SET response_status = "answered",
+            response = #{response}
+        WHERE inquiry_id = #{inquiry_id}
+    </update>    
+
+    <!-- selectInquiryByUser --> 
+    <select id="selectInquiryByUser"
+            parameterType="Integer"
+            resultType="com.autcion.auction_back.EditPage.domain.InquiriesDTO">
+        SELECT inquiry_id,
+               user_id,
+               title, 
+               content, 
+               response_status,
+               response,
+               created_at
+        FROM inquiries
+        WHERE user_id = #{user_id}
+        ORDER BY created_at DESC;
+    </select>    
+
+    <!-- selectInquiryByAdmin --> 
+    <select id="selectInquiryByAdmin"
+            resultType="com.autcion.auction_back.EditPage.domain.InquiriesDTO">
+        SELECT *
+        FROM inquiries;
+    </select>    
+
+    <!-- selectTransaction --> 
+    <select id="selectTransaction"
+            resultType="com.autcion.auction_back.EditPage.domain.TransactionInfoDTO">
+        SELECT *
+        FROM transaction_info;
+    </select>    
+
+    <!-- updateTransaction --> 
+    <update id="updateTransaction"
+            parameterType="com.autcion.auction_back.EditPage.domain.TransactionInfoDTO">
+        UPDATE transaction_info
+        SET tracking_number1 = #{tracking_number1},
+            tracking_number2 = #{tracking_number2},
+            tracking_number3 = #{tracking_number3},
+            tracking_number4 = #{tracking_number4}
+        WHERE transaction_id = #{transaction_id}
+    </update>    
+
+    <!-- updateTheme --> 
+
+    <update id="updateTheme"
+            parameterType="com.autcion.auction_back.EditPage.domain.ThemeDTO">
+        UPDATE theme
+        SET theme_name = #{theme_name},
+            theme_info = #{theme_info},
+            logoURL = #{logoURL}
+        WHERE theme_id = 1
+    </update>
+
+    <!-- updateBanner --> 
+
+    <update id="updateBanner"
+            parameterType="com.autcion.auction_back.EditPage.domain.BannerDTO">
+        UPDATE banner
+        SET banner_title = #{banner_title},
+            banner_imageURL = #{banner_imageURL}
+        WHERE banner_id = 1
+    </update>
+
+    <!-- insertNotice --> 
+
+    <insert id="insertNotice"
+        parameterType="com.autcion.auction_back.EditPage.domain.NoticeDTO">
+        INSERT INTO notice (
+            notice_title,
+            notice_info
+        ) VALUES (
+            #{notice_title},
+            #{notice_info}
+        )
+    </insert>    
+</mapper>

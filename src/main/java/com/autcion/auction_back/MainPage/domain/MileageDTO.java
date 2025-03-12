@@ -4,14 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class MileageDTO {
-    public int mileage_id;
-    public int user_id;
-    public int amount;
-    public String created_at;
+    private int mileage_id;
+    private int user_id;
+    private int amount;
+    private LocalDateTime created_at;
+    private LocalDateTime updated_at;
 }

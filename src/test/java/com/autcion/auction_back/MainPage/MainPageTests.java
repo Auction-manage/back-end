@@ -22,8 +22,8 @@ public class MainPageTests {
     @DisplayName("003 : 관심물품(경매) 저장 테스트")
     public void insertWishListTest() {
         WishListsDTO request = WishListsDTO.builder()
-                                    .user_id(1)
-                                    .item_id(1)
+                                    .user_id(11)
+                                    .item_id(2)
                                     .build();
 
         mainMapper.insertWishList(request);
@@ -34,8 +34,8 @@ public class MainPageTests {
     @DisplayName("004 : 관심물품(정찰) 저장 테스트")
     public void insertMarketWishListTest() {
         MarketWishListsDTO request = MarketWishListsDTO.builder()
-                                    .user_id(1)
-                                    .item_id(1)
+                                    .user_id(11)
+                                    .item_id(2)
                                     .build();
 
         mainMapper.insertMarketWishList(request);
@@ -80,7 +80,7 @@ public class MainPageTests {
     @DisplayName("011 : 마일리지 적립")
     public void insertMileageTest() {
         MileageDTO request = MileageDTO.builder()
-                                    .user_id(1)
+                                    .user_id(11)
                                     .amount(1000)
                                     .build();
 
@@ -91,7 +91,7 @@ public class MainPageTests {
     @Test
     @DisplayName("012 : 마일리지 조회")
     public void selectMileageTest() {
-        int result = mainMapper.selectMileage(1);
+        int result = mainMapper.selectMileage(11);
         System.out.println(result);
         System.out.println("debug >>> 마일리지 조회 성공");
     }
@@ -100,7 +100,7 @@ public class MainPageTests {
     @DisplayName("013 : 마일리지 사용")
     public void useMileageTest() {
         MileageDTO request = MileageDTO.builder()
-                                    .user_id(1)
+                                    .user_id(11)
                                     .amount(-1000)
                                     .build();
 
@@ -111,7 +111,7 @@ public class MainPageTests {
     @Test
     @DisplayName("014 : 마일리지 사용 내역 조회")
     public void selectMileageHistoryTest() {
-        List<MileageDTO> result = mainMapper.selectMileageHistory(1);
+        List<MileageDTO> result = mainMapper.selectMileageHistory(11);
         for(MileageDTO mileage : result) {
             System.out.println(mileage);
         }   

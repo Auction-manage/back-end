@@ -4,15 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class WishListsDTO {
-    public int wishlist_id;
-    public int user_id;
-    public int item_id;
-    public String created_at;
+    private int wishlist_id;
+    private int user_id;
+    private int item_id;
+    private LocalDateTime created_at;
 }
 
