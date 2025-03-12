@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.autcion.auction_back.user.DAO.UserMapper">
+
+    <!-- 24) 판매자 정보 조회 (판매자 닉네임, 등급만 조회) -->
+    <select id="getSellerInfo" parameterType="int" resultType="com.autcion.auction_back.user.DTO.UserDTO">
+        SELECT user_id, nickname, seller_rank
+        FROM users
+        WHERE user_id = #{userId}
+    </select>
+
+</mapper>

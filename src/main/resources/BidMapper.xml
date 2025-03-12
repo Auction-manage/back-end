@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.autcion.auction_back.auctionpage.DAO.BidMapper">
-
-    <insert id="insertBid" parameterType="com.autcion.auction_back.auctionpage.DTO.BidDTO">
-        INSERT INTO bids (item_id, bidder_id, bidder_nickname, bid_price, bid_time)
-        VALUES (#{itemId}, #{bidderId}, #{bidderNickname}, #{bidPrice}, #{bidTime})
-    </insert>
-</mapper>

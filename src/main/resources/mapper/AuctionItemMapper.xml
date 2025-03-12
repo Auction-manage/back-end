@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.autcion.auction_back.auctionpage.DAO.AuctionItemMapper">
+
+
+    <!-- 1) 물품(경매) 구매 가능 리스트 조회 -->
+    <select id="getActiveAuctionItems" resultType="com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO">
+        SELECT item_id, seller_id, seller_nickname, title, description,
+               start_price, current_price, status, created_at, updated_at, end_time
+        FROM auction_items
+        WHERE status = 'active'
+    </select>
+
+    <!-- 2) 물품(경매) 상세 정보 조회 -->
+    <select id="getAuctionItemDetail" parameterType="int" resultType="com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO">
+        SELECT item_id, seller_id, seller_nickname, title, description,
+               start_price, current_price, status, created_at, updated_at, end_time
+        FROM auction_items
+        WHERE item_id = #{itemId}
+    </select>
+
+    <!-- 3) 물품(경매) 등록 -->
+    <insert id="insertAuctionItem" parameterType="com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO">
+        INSERT INTO auction_items
+        (seller_id, seller_nickname, title, description, start_price, current_price, status, created_at, end_time)
+        VALUES
+        (#{seller_id}, #{seller_nickname}, #{title}, #{description},
+         #{start_price}, #{current_price}, #{status}, NOW(), #{end_time})
+    </insert>
+
+    <!-- 4) 물품(경매) 상세 정보 수정 -->
+    <update id="updateAuctionItem" parameterType="com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO">
+        UPDATE auction_items
+        SET title = #{title},
+            description = #{description},
+            current_price = #{current_price},
+            updated_at = NOW()
+        WHERE item_id = #{item_id}
+    </update>
+
+    <!-- 5) 물품(경매) 삭제 -->
+    <delete id="deleteAuctionItem" parameterType="int">
+        DELETE FROM auction_items
+        WHERE item_id = #{itemId}
+    </delete>
+
+    <!-- 6) 물품(경매) 입찰 -->
+    <insert id="placeBid" parameterType="com.autcion.auction_back.common.BidsDTO">
+        INSERT INTO bids (item_id, bidder_id, bidder_nickname, bid_price, bid_time)
+        VALUES (#{item_id}, #{bidder_id}, #{bidder_nickname}, #{bid_price}, NOW())
+    </insert>
+
+    <!-- 7) 물품(경매) 구매 -->
+    <!-- This could be an update to 'inactive' or an insert to auction_history. Adjust to your logic. -->
+    <update id="purchaseAuctionItem" parameterType="int">
+        UPDATE auction_items
+        SET status = 'inactive'
+        WHERE item_id = #{itemId}
+    </update>
+
+    <!-- 8) 물품(경매) 위탁 판매 등록 -->
+    <insert id="registerConsignmentSale" parameterType="com.autcion.auction_back.common.ConsignmentDTO">
+        INSERT INTO consignment (transaction_id, buyer_id, buyer_nickname, buyer_address, progress_status)
+        VALUES (#{transaction_id}, #{buyer_id}, #{buyer_nickname}, #{buyer_address}, 'in_progress')
+    </insert>
+
+    <!-- 9) 물품(경매) 위탁 구매 신청 -->
+    <!-- Example: update the progress_status to 'completed' -->
+    <update id="applyConsignmentPurchase" parameterType="com.autcion.auction_back.common.ConsignmentDTO">
+        UPDATE consignment
+        SET progress_status = 'completed'
+        WHERE consignment_id = #{consignment_id}
+    </update>
+
+    <!-- ========== Auction Image CRUD ========== -->
+
+    <!-- 17) 물품(경매) 이미지 저장 -->
+    <insert id="insertAuctionImage" parameterType="com.autcion.auction_back.auctionpage.DTO.AuctionImageDTO">
+        INSERT INTO auction_image (item_id, image_url, created_at)
+        VALUES (#{item_id}, #{image_url}, NOW())
+    </insert>
+
+    <!-- 19) 물품(경매) 이미지 조회 -->
+    <select id="getAuctionImagesByItemId" parameterType="int" resultType="com.autcion.auction_back.auctionpage.DTO.AuctionImageDTO">
+        SELECT image_id, item_id, image_url, created_at, updated_at
+        FROM auction_image
+        WHERE item_id = #{itemId}
+    </select>
+
+    <!-- 21) 물품(경매) 이미지 수정 -->
+    <update id="updateAuctionImage" parameterType="com.autcion.auction_back.auctionpage.DTO.AuctionImageDTO">
+        UPDATE auction_image
+        SET image_url = #{image_url},
+            updated_at = NOW()
+        WHERE image_id = #{image_id}
+    </update>
+
+    <!-- 23) 물품(경매) 이미지 삭제 -->
+    <delete id="deleteAuctionImage" parameterType="long">
+        DELETE FROM auction_image
+        WHERE image_id = #{imageId}
+    </delete>
+
+</mapper>

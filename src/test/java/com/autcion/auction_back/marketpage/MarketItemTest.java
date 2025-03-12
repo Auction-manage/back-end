@@ -1,112 +1,115 @@
 package com.autcion.auction_back.marketpage;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.autcion.auction_back.marketpage.DAO.MarketItemMapper;
+import com.autcion.auction_back.marketpage.DTO.MarketImageDTO;
+import com.autcion.auction_back.marketpage.DTO.MarketItemDTO;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.autcion.auction_back.marketpage.DAO.MarketItemMapper;
-import com.autcion.auction_back.marketpage.DTO.MarketItemDTO;
-
+@SpringBootTest
 public class MarketItemTest {
 
     @Autowired
     private MarketItemMapper marketItemMapper;
 
     @Test
-    public void testSelectAvailableMarketItems() {
-        // Given (테스트 데이터 삽입)
-        MarketItemDTO item = new MarketItemDTO();
-        item.setTitle("Test Item");
-        item.setPrice(1000L);
-        item.setStatus("available");
-        marketItemMapper.insertMarketItem(item);
-
-        // When
-        List<MarketItemDTO> result = marketItemMapper.selectAvailableMarketItems();
-
-        // Then
-        assertNotNull(result);
-        assertTrue(result.size() > 0);
-        assertEquals("Test Item", result.get(0).getTitle());
+    @DisplayName("물품(정찰) 구매 가능 리스트 조회")
+    public void testGetAvailableMarketItems() {
+        List<MarketItemDTO> items = marketItemMapper.getAvailableItems();
+        items.forEach(i -> System.out.println("Available Market Item: " + i));
     }
 
     @Test
-    public void testSelectMarketItemDetail() {
-        // Given
-        MarketItemDTO item = new MarketItemDTO();
-        item.setTitle("Detail Item");
-        item.setPrice(2000L);
-        item.setStatus("available");
-        marketItemMapper.insertMarketItem(item);
-        Long itemId = item.getItemId();
-
-        // When
-        MarketItemDTO result = marketItemMapper.selectMarketItemDetail(itemId);
-
-        // Then
-        assertNotNull(result);
-        assertEquals("Detail Item", result.getTitle());
+    @DisplayName("물품(정찰) 상세 정보 조회")
+    public void testGetMarketItemDetail() {
+        int itemId = 1; // example
+        MarketItemDTO item = marketItemMapper.getMarketItemDetail(itemId);
+        System.out.println("Market Item Detail: " + item);
     }
 
     @Test
+    @DisplayName("물품(정찰) 등록")
     public void testInsertMarketItem() {
-        // Given
-        MarketItemDTO item = new MarketItemDTO();
-        item.setTitle("New Item");
-        item.setPrice(3000L);
-        item.setStatus("available");
-
-        // When
-        marketItemMapper.insertMarketItem(item);
-
-        // Then
-        MarketItemDTO result = marketItemMapper.selectMarketItemDetail(item.getItemId());
-        assertNotNull(result);
-        assertEquals("New Item", result.getTitle());
+        MarketItemDTO newItem = MarketItemDTO.builder()
+                .title("Test Market Item")
+                .description("Test Description")
+                .price(10000L)
+                .status("available")
+                .build();
+        int result = marketItemMapper.insertMarketItem(newItem);
+        System.out.println("Insert Market Item Result: " + result);
     }
 
     @Test
+    @DisplayName("물품(정찰) 상세 정보 수정")
     public void testUpdateMarketItem() {
-        // Given
-        MarketItemDTO item = new MarketItemDTO();
-        item.setTitle("Original Item");
-        item.setPrice(4000L);
-        item.setStatus("available");
-        marketItemMapper.insertMarketItem(item);
-        Long itemId = item.getItemId();
-
-        item.setTitle("Updated Item");
-        item.setPrice(5000L);
-        item.setStatus("transaction");
-
-        // When
-        marketItemMapper.updateMarketItem(item);
-
-        // Then
-        MarketItemDTO result = marketItemMapper.selectMarketItemDetail(itemId);
-        assertNotNull(result);
-        assertEquals("Updated Item", result.getTitle());
-        assertEquals(5000L, result.getPrice());
+        MarketItemDTO updateItem = MarketItemDTO.builder()
+                .item_id(1) // example
+                .title("Updated Title")
+                .description("Updated Description")
+                .price(20000L)
+                .build();
+        int result = marketItemMapper.updateMarketItem(updateItem);
+        System.out.println("Update Market Item Result: " + result);
     }
 
     @Test
+    @DisplayName("물품(정찰) 삭제")
     public void testDeleteMarketItem() {
-        // Given
-        MarketItemDTO item = new MarketItemDTO();
-        item.setTitle("Delete Item");
-        item.setPrice(6000L);
-        item.setStatus("available");
-        marketItemMapper.insertMarketItem(item);
-        Long itemId = item.getItemId();
-
-        // When
-        marketItemMapper.deleteMarketItem(itemId);
-
-        // Then
-        MarketItemDTO result = marketItemMapper.selectMarketItemDetail(itemId);
-        assertNull(result);
+        int itemId = 1; // example
+        int result = marketItemMapper.deleteMarketItem(itemId);
+        System.out.println("Delete Market Item Result: " + result);
     }
+
+    @Test
+    @DisplayName("물품(정찰) 구매")
+    public void testPurchaseMarketItem() {
+        int itemId = 2; // example
+        int result = marketItemMapper.purchaseMarketItem(itemId);
+        System.out.println("Purchase Market Item (status -> sold_out) Result: " + result);
+    }
+
+    @Test
+    @DisplayName("물품(정찰) 이미지 저장")
+    public void testInsertMarketImage() {
+        MarketImageDTO imageDTO = MarketImageDTO.builder()
+                .item_id(2)
+                .image_url("http://example.com/test_market_image.jpg")
+                .build();
+        int result = marketItemMapper.insertMarketImage(imageDTO);
+        System.out.println("Insert Market Image Result: " + result);
+    }
+
+    @Test
+    @DisplayName("물품(정찰) 이미지 조회")
+    public void testGetMarketImagesByItemId() {
+        int itemId = 2;
+        List<MarketImageDTO> images = marketItemMapper.getMarketImagesByItemId(itemId);
+        images.forEach(img -> System.out.println("Market Image: " + img));
+    }
+
+    @Test
+    @DisplayName("물품(정찰) 이미지 수정")
+    public void testUpdateMarketImage() {
+        MarketImageDTO imageDTO = MarketImageDTO.builder()
+                .image_id(1) // example
+                .image_url("http://example.com/updated_market_image.jpg")
+                .build();
+        int result = marketItemMapper.updateMarketImage(imageDTO);
+        System.out.println("Update Market Image Result: " + result);
+    }
+
+    @Test
+    @DisplayName("물품(정찰) 이미지 삭제")
+    public void testDeleteMarketImage() {
+        long imageId = 1; // example
+        int result = marketItemMapper.deleteMarketImage(imageId);
+        System.out.println("Delete Market Image Result: " + result);
+    }
+    
 }

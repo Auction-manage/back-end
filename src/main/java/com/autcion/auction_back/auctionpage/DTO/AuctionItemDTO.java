@@ -1,18 +1,24 @@
 package com.autcion.auction_back.auctionpage.DTO;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AuctionItemDTO {
-    private Long itemId;
-    private Long sellerId;
-    private String sellerNickname;
+    private int item_id;
+    private int seller_id;
+    private String seller_nickname;
     private String title;
     private String description;
-    private Double startPrice;
-    private Double currentPrice;
-    private LocalDateTime endTime;
+    private double start_price;
+    private double current_price;
     private String status; // active, inactive
+    private String created_at; // could be LocalDateTime
+    private String updated_at; // could be LocalDateTime
+    private String end_time;   // could be LocalDateTime
 }

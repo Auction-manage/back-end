@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.autcion.auction_back.transaction.DAO.ConsignmentMapper">
-
-    <insert id="insertConsignment" parameterType="com.autcion.auction_back.transaction.DTO.ConsignmentDTO">
-        INSERT INTO consignment (transaction_id, buyer_id, buyer_nickname, buyer_address, progress_status)
-        VALUES (#{transactionId}, #{buyerId}, #{buyerNickname}, #{buyerAddress}, #{progressStatus})
-    </insert>
-</mapper>
