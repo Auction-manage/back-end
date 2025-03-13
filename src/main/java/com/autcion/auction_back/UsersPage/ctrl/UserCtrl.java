@@ -1,4 +1,4 @@
-package com.autcion.auction_back.ctrl;
+package com.autcion.auction_back.UsersPage.ctrl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,21 +14,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.autcion.auction_back.dao.ProfileDao;
-import com.autcion.auction_back.domain.AuctionDataDto;
-import com.autcion.auction_back.domain.AuctionWishListDto;
-import com.autcion.auction_back.domain.LoginDto;
-import com.autcion.auction_back.domain.MarketDataDto;
-import com.autcion.auction_back.domain.MarketWishListDto;
-import com.autcion.auction_back.domain.RegisterDto;
-import com.autcion.auction_back.service.LoginService;
-import com.autcion.auction_back.service.ProfileService;
-import com.autcion.auction_back.service.RecoverService;
-import com.autcion.auction_back.service.RegisterService;
-import com.autcion.auction_back.service.SaleHistoryService;
+import com.autcion.auction_back.UsersPage.dao.ProfileDao;
+import com.autcion.auction_back.UsersPage.domain.AuctionDataDto;
+import com.autcion.auction_back.UsersPage.domain.AuctionWishListDto;
+import com.autcion.auction_back.UsersPage.domain.LoginDto;
+import com.autcion.auction_back.UsersPage.domain.MarketDataDto;
+import com.autcion.auction_back.UsersPage.domain.MarketWishListDto;
+import com.autcion.auction_back.UsersPage.domain.UserDataDto;
+import com.autcion.auction_back.UsersPage.service.LoginService;
+import com.autcion.auction_back.UsersPage.service.ProfileService;
+import com.autcion.auction_back.UsersPage.service.RecoverService;
+import com.autcion.auction_back.UsersPage.service.RegisterService;
+import com.autcion.auction_back.UsersPage.service.SaleHistoryService;
 
 @RestController
-public class OuathCtrl {
+public class UserCtrl {
 
     @Autowired
     private RegisterService registerService;
@@ -51,7 +51,7 @@ public class OuathCtrl {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody RegisterDto registerDto) {
+    public String register(@RequestBody UserDataDto registerDto) {
         System.out.println("debug >>>> registerDto " + registerDto);
 
         String result = registerService.register(registerDto);
@@ -86,9 +86,9 @@ public class OuathCtrl {
     }
 
     @PostMapping("/profile/update")
-    public ProfileDao updateProfile(@RequestBody RegisterDto registerDto) {
+    public ProfileDao updateProfile(@RequestBody UserDataDto registerDto) {
 
-        RegisterDto result = profileService.updateProfile(registerDto);
+        UserDataDto result = profileService.updateProfile(registerDto);
 
         System.out.println("debug >>>> result " + result);
 
@@ -131,7 +131,7 @@ public class OuathCtrl {
     public String recoverId(@RequestParam String name, String phone) {
         System.out.println("debug >>>> recoverId");
 
-        RegisterDto param = RegisterDto.builder()
+        UserDataDto param = UserDataDto.builder()
                 .name(name)
                 .phone(phone)
                 .build();
@@ -145,7 +145,7 @@ public class OuathCtrl {
     public String recoverPassword(@RequestParam String user_id, String name, String phone) {
         System.out.println("debug >>>> recoverPassword");
 
-        RegisterDto param = RegisterDto.builder()
+        UserDataDto param = UserDataDto.builder()
                 .loginId(user_id)
                 .name(name)
                 .phone(phone)
@@ -162,7 +162,7 @@ public class OuathCtrl {
     public String updatePassword(@RequestParam String password, String user_id) {
         System.out.println("debug >>>> updatePassword");
 
-        RegisterDto param = RegisterDto.builder()
+        UserDataDto param = UserDataDto.builder()
                 .loginId(user_id)
                 .password(password)
                 .build();

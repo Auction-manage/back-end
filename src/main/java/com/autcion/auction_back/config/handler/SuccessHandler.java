@@ -9,8 +9,8 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import com.autcion.auction_back.domain.OauthUserEntity;
-import com.autcion.auction_back.service.UserService;
+import com.autcion.auction_back.UsersPage.domain.OauthUserEntity;
+import com.autcion.auction_back.UsersPage.service.UserService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.autcion.auction_back.service;
+package com.autcion.auction_back.UsersPage.service;
 
 import java.util.Map;
 
@@ -9,8 +9,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import com.autcion.auction_back.dao.OauthRepository;
-import com.autcion.auction_back.domain.OauthUserEntity;
+import com.autcion.auction_back.UsersPage.dao.OauthRepository;
+import com.autcion.auction_back.UsersPage.domain.OauthUserEntity;
 
 @Service
 public class UserService extends DefaultOAuth2UserService {

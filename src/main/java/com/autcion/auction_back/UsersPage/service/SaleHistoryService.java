@@ -1,13 +1,13 @@
-package com.autcion.auction_back.service;
+package com.autcion.auction_back.UsersPage.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.autcion.auction_back.dao.SaleHistoryMapper;
-import com.autcion.auction_back.domain.AuctionDataDto;
-import com.autcion.auction_back.domain.MarketDataDto;
+import com.autcion.auction_back.UsersPage.dao.SaleHistoryMapper;
+import com.autcion.auction_back.UsersPage.domain.AuctionDataDto;
+import com.autcion.auction_back.UsersPage.domain.MarketDataDto;
 
 @Service
 public class SaleHistoryService {

@@ -2,6 +2,7 @@ package com.autcion.auction_back;
 
 import java.util.List;
 import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,25 +12,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.autcion.auction_back.dao.ProfileDao;
-import com.autcion.auction_back.domain.AuctionDataDto;
-import com.autcion.auction_back.domain.AuctionWishListDto;
-import com.autcion.auction_back.domain.LoginDto;
-import com.autcion.auction_back.domain.MarketDataDto;
-import com.autcion.auction_back.domain.MarketWishListDto;
-import com.autcion.auction_back.domain.RegisterDto;
-import com.autcion.auction_back.service.LoginService;
-import com.autcion.auction_back.service.ProfileService;
-import com.autcion.auction_back.service.RecoverService;
-import com.autcion.auction_back.service.RegisterService;
-import com.autcion.auction_back.service.SaleHistoryService;
-import com.autcion.auction_back.service.UserService;
+import com.autcion.auction_back.UsersPage.dao.ProfileDao;
+import com.autcion.auction_back.UsersPage.domain.AuctionDataDto;
+import com.autcion.auction_back.UsersPage.domain.AuctionWishListDto;
+import com.autcion.auction_back.UsersPage.domain.LoginDto;
+import com.autcion.auction_back.UsersPage.domain.MarketDataDto;
+import com.autcion.auction_back.UsersPage.domain.MarketWishListDto;
+import com.autcion.auction_back.UsersPage.domain.UserDataDto;
+import com.autcion.auction_back.UsersPage.service.LoginService;
+import com.autcion.auction_back.UsersPage.service.ProfileService;
+import com.autcion.auction_back.UsersPage.service.RecoverService;
+import com.autcion.auction_back.UsersPage.service.RegisterService;
+import com.autcion.auction_back.UsersPage.service.SaleHistoryService;
+import com.autcion.auction_back.UsersPage.service.UserService;
 
 import jakarta.transaction.Transactional;
 
 @SpringBootTest
-@ComponentScan(basePackages = "com.autcion.auction_back")
 @Transactional
+@ComponentScan(basePackages = {
+    "com.autcion.auction_back",
+    "com.autcion.auction_back.UsersPage",
+    "com.autcion.auction_back.UsersPage.dao",
+    "com.autcion.auction_back.UsersPage.service"
+})
 class OauthdemoApplication{
 
 	@Autowired
@@ -57,23 +63,26 @@ class OauthdemoApplication{
 	@Test
 	@DisplayName("로그인 테스트")
 	public void testLogin() {
+		// LoginDto loginDto = LoginDto.builder()
+		// 							.loginId("test1")
+		// 							.password("test1")
+		// 							.build();
 		LoginDto loginDto = LoginDto.builder()
-									.loginId("test1")
-									.password("test1")
+									.loginId("pwEncodeTest")
+									.password("pwEncodeTest")
 									.build();
-		System.out.println("LoginDto created: " + loginDto);
 		
 		Map<String, String> result = loginService.login(loginDto);
 		System.out.println("Login result: " + result);
 
-		// assertEquals("success", result, "로그인에에 실패했습니다. 반환된 결과: " + result);
+		assertEquals("success", result.get("status"), "로그인에에 실패했습니다. 반환된 결과: " + result);
 	}
 
 	@Test
 	@DisplayName("회원가입")
 	public void testRegister() {
 		try {
-			RegisterDto registerDto = RegisterDto.builder()
+			UserDataDto registerDto = UserDataDto.builder()
 												.loginId("test")
 												.password("test")
 												.name("test")
@@ -99,7 +108,7 @@ class OauthdemoApplication{
 	@DisplayName("회원가입 시 아이디 중복일 경우")
 	public void testRegisterDuplicate() {
 		try {
-			RegisterDto registerDto = RegisterDto.builder()
+			UserDataDto registerDto = UserDataDto.builder()
 												.loginId("test1")
 												.password("test")
 												.name("test")
@@ -124,7 +133,7 @@ class OauthdemoApplication{
 	@Test
 	@DisplayName("프로필 조회")
 	public void testProfile() {
-		String username = "test";
+		String username = "test1";
 		ProfileDao profile = profileService.profile(username);
 		System.out.println("Profile: " + profile);
 
@@ -134,7 +143,7 @@ class OauthdemoApplication{
 	@Test
 	@DisplayName("프로필 수정")
 	public void testUpdateProfile() {
-		RegisterDto registerDto = RegisterDto.builder()
+		UserDataDto registerDto = UserDataDto.builder()
 				.name("test1234")
 				.nickname("test123")
 				.email("test1234@test123.com")
@@ -142,7 +151,7 @@ class OauthdemoApplication{
 				.address("test1234")
 				.build();
 				
-		RegisterDto result = profileService.updateProfile(registerDto);
+		UserDataDto result = profileService.updateProfile(registerDto);
 
 		System.out.println("UpdateProfile: " + result);
 		
@@ -178,7 +187,7 @@ class OauthdemoApplication{
 	@Test
 	@DisplayName("아이디 찾기")
 	public void testRecoverId() {
-		RegisterDto registerDto = RegisterDto.builder()
+		UserDataDto registerDto = UserDataDto.builder()
 											.name("test")
 											.phone("test")
 											.build();
@@ -190,7 +199,7 @@ class OauthdemoApplication{
 	@DisplayName("비밀번호 찾기")
 	public void testRecoverord() {
 
-		RegisterDto registerDto = RegisterDto.builder()
+		UserDataDto registerDto = UserDataDto.builder()
 											.loginId("test1")
 											.name("test")
 											.phone("test")
@@ -201,7 +210,7 @@ class OauthdemoApplication{
 		System.out.println("UpdatePassword: " + result);
 
 		if(result.equals("success")) {
-			RegisterDto registerDto1 = RegisterDto.builder()
+			UserDataDto registerDto1 = UserDataDto.builder()
 													.loginId("test123")
 													.password("test")
 													.build();

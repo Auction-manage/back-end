@@ -1,13 +1,13 @@
-package com.autcion.auction_back.dao;
+package com.autcion.auction_back.UsersPage.dao;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.autcion.auction_back.domain.AuctionDataDto;
-import com.autcion.auction_back.domain.AuctionWishListDto;
-import com.autcion.auction_back.domain.MarketDataDto;
-import com.autcion.auction_back.domain.MarketWishListDto;
+import com.autcion.auction_back.UsersPage.domain.AuctionDataDto;
+import com.autcion.auction_back.UsersPage.domain.AuctionWishListDto;
+import com.autcion.auction_back.UsersPage.domain.MarketDataDto;
+import com.autcion.auction_back.UsersPage.domain.MarketWishListDto;
 
 @Mapper
 public interface SaleHistoryMapper {

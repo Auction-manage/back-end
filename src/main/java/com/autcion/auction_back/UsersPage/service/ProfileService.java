@@ -1,16 +1,16 @@
-package com.autcion.auction_back.service;
+package com.autcion.auction_back.UsersPage.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.autcion.auction_back.dao.ProfileDao;
-import com.autcion.auction_back.dao.SaleHistoryMapper;
-import com.autcion.auction_back.dao.UsersMapper;
-import com.autcion.auction_back.domain.AuctionWishListDto;
-import com.autcion.auction_back.domain.MarketWishListDto;
-import com.autcion.auction_back.domain.RegisterDto;
+import com.autcion.auction_back.UsersPage.dao.ProfileDao;
+import com.autcion.auction_back.UsersPage.dao.SaleHistoryMapper;
+import com.autcion.auction_back.UsersPage.dao.UsersMapper;
+import com.autcion.auction_back.UsersPage.domain.AuctionWishListDto;
+import com.autcion.auction_back.UsersPage.domain.MarketWishListDto;
+import com.autcion.auction_back.UsersPage.domain.UserDataDto;
 
 @Service
 public class ProfileService {
@@ -29,7 +29,7 @@ public class ProfileService {
         return result;
     }
 
-    public RegisterDto updateProfile(RegisterDto registerDto) {
+    public UserDataDto updateProfile(UserDataDto registerDto) {
         System.out.println("debug >>>> updateProfileService");
         
         int result = usersMapper.updateProfileRow(registerDto);

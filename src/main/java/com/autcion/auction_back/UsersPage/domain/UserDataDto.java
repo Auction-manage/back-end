@@ -1,11 +1,11 @@
-package com.autcion.auction_back.domain;
+package com.autcion.auction_back.UsersPage.domain;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class RegisterDto {
+public class UserDataDto {
     private String loginId;
     private String password;
     private String name;

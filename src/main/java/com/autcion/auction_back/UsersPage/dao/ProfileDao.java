@@ -1,4 +1,4 @@
-package com.autcion.auction_back.dao;
+package com.autcion.auction_back.UsersPage.dao;
 
 import org.springframework.stereotype.Repository;
 
@@ -7,19 +7,19 @@ import lombok.Data;
 @Data
 @Repository
 public class ProfileDao {
-    private int user_id;
+    private int userId;
     private String name;
     private String nickname;
-    private String login_id;
+    private String loginId;
     private String password;
     private String phone;
     private String email;
     private String address;
-    private String created_at;
-    private String updated_at;
-    private String admin_info;
-    private String seller_rank;
-    private String buyer_rank;
+    private String createdAt;
+    private String updatedAt;
+    private String adminInfo;
+    private int sellerRank;
+    private int buyerRank;
     private String provider;
-    private String provider_login_id;
+    private String providerLoginId;
 }

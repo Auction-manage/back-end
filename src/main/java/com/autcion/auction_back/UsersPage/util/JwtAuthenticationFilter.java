@@ -1,4 +1,4 @@
-package com.autcion.auction_back.util;
+package com.autcion.auction_back.UsersPage.util;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;

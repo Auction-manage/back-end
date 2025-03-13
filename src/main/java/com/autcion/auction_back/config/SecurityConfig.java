@@ -6,17 +6,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.autcion.auction_back.UsersPage.service.UserService;
+import com.autcion.auction_back.UsersPage.util.JwtAuthenticationFilter;
+import com.autcion.auction_back.UsersPage.util.JwtUtil;
 import com.autcion.auction_back.config.handler.FailureHandler;
 import com.autcion.auction_back.config.handler.SuccessHandler;
-import com.autcion.auction_back.service.UserService;
-import com.autcion.auction_back.util.JwtAuthenticationFilter;
-import com.autcion.auction_back.util.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,8 +36,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .cors().and()  // CORS 설정 활성화
-                .csrf(csrf -> csrf.disable())  // CSRF 보호 비활성화
+                .cors(cors -> cors  // 수정된 CORS 설정
+                    .configurationSource(corsConfigurationSource())
+                )
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                     // 인증없이 접근 가능한 경로 설정
                     .requestMatchers("/", "/login/**", "/register", "/recover/**").permitAll()
@@ -47,7 +51,9 @@ public class SecurityConfig {
                 .oauth2Login(oauth -> oauth
                     .successHandler(successHandler)
                     .failureHandler(failureHandler)
-                    .userInfoEndpoint(user -> user.userService(userService)))
+                    .userInfoEndpoint(user -> user
+                        .userService(userService)
+                    ))
                 .build();
     }
 

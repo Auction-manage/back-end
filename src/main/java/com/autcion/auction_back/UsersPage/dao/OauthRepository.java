@@ -1,11 +1,11 @@
-package com.autcion.auction_back.dao;
+package com.autcion.auction_back.UsersPage.dao;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.autcion.auction_back.domain.OauthUserEntity;
+import com.autcion.auction_back.UsersPage.domain.OauthUserEntity;
 
 
 @Repository

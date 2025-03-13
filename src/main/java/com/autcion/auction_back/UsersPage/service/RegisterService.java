@@ -1,12 +1,13 @@
-package com.autcion.auction_back.service;
+package com.autcion.auction_back.UsersPage.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.autcion.auction_back.dao.UsersMapper;
-import com.autcion.auction_back.domain.RegisterDto;
+import com.autcion.auction_back.UsersPage.dao.UsersMapper;
+import com.autcion.auction_back.UsersPage.domain.UserDataDto;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class RegisterService {
@@ -15,11 +16,20 @@ public class RegisterService {
     @Autowired
     private UsersMapper usersMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public String register(RegisterDto registerDto) {
-        System.out.println("debug >>>> registerService register1");
+
+    public String register(UserDataDto registerDto) {
+        System.out.println("debug >>>> registerService register" + registerDto);
 
         try {
+
+            String encodedPassword = passwordEncoder.encode(registerDto.getPassword());
+            registerDto.setPassword(encodedPassword);
+
+            System.out.println("debug >>>> registerService register" + registerDto);
+
             Integer result = usersMapper.registerRow(registerDto);
             System.out.println("Mapper result : " + result);
             return result > 0 ? "success" : "fail";

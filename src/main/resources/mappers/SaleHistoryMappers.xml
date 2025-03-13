@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.autcion.auction_back.dao.SaleHistoryMapper">
+<mapper namespace="com.autcion.auction_back.UsersPage.dao.SaleHistoryMapper">
 
-    <select id="AuctionDataRow" parameterType="String" resultType="com.autcion.auction_back.domain.AuctionDataDto">
+    <select id="AuctionDataRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.AuctionDataDto">
         SELECT * FROM auction_items WHERE seller_id = #{user_id}
     </select>
 
-    <select id="checkWishListRow" parameterType="String" resultType="com.autcion.auction_back.domain.AuctionWishListDto">
+    <select id="checkWishListRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.AuctionWishListDto">
         SELECT 
             auction_wishlists.user_id,
             auction_wishlists.item_id,
@@ -26,7 +26,7 @@
         WHERE auction_wishlists.user_id = #{user_id}
     </select>
 
-    <select id="MarketDataRow" parameterType="String" resultType="com.autcion.auction_back.domain.MarketDataDto">
+    <select id="MarketDataRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.MarketDataDto">
         SELECT  virtual_market.market_id,
                 virtual_market.seller_id,
                 virtual_market.seller_nickname,
@@ -46,7 +46,7 @@
         WHERE virtual_market.seller_id = #{user_id}
     </select>
 
-    <select id="checkMarketWishListRow" parameterType="String" resultType="com.autcion.auction_back.domain.MarketWishListDto">
+    <select id="checkMarketWishListRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.MarketWishListDto">
         SELECT 
             market_wishlists.user_id,
             market_wishlists.item_id,
