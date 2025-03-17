@@ -48,11 +48,6 @@ public class UserCtrl {
     @Autowired
     private RecoverService recoverService;
 
-    @GetMapping("/")
-    public String confirm() {
-        return "confirm";
-    }
-
     @PostMapping("/register") // 화원가입
     public String register(@RequestBody UserDataDto registerDto) {
         System.out.println("debug >>>> registerDto " + registerDto);
@@ -112,7 +107,6 @@ public class UserCtrl {
         return result;
     }
 
-
     @GetMapping("/profile/wishlist") // 찜목록 조회
     public Map<String, Object> checkwhishlist(@RequestParam String user_id) {
         System.out.println("debug >>>> wishlist");
@@ -162,16 +156,27 @@ public class UserCtrl {
         return result;
     }    
     
-    @GetMapping("/profile/inquires")
-    public List<InquiryDto>  getMethodName(@RequestParam String user_id) {
-        System.out.println("debug >>>> getMethodName");
-
-        List<InquiryDto> result = profileService.myInquiries(user_id);
-
-        return null;
+    @GetMapping("/profile/inquiries")
+    public ResponseEntity<?> getInquiries(
+            @RequestParam String user_id,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false, defaultValue = "false") boolean grouped) {
+        
+        System.out.println("debug >>>> getInquiries - status: " + status + ", grouped: " + grouped);
+        
+        // 통합된 서비스 메서드 호출
+        Object result = profileService.getInquiries(user_id, status, grouped);
+        return ResponseEntity.ok(result);
     }
     
-
+    // 기존 메서드 유지 (하위 호환성)
+    @GetMapping("/profile/inquires")
+    public List<InquiryDto> getMethodName(@RequestParam String user_id) {
+        System.out.println("debug >>>> getMethodName");
+        List<InquiryDto> result = profileService.myInquiries(user_id);
+        return result;
+    }
+    
     @GetMapping("/recover/id") //아이디 찾기기
     public String recoverId(@RequestParam String name, String phone) {
         System.out.println("debug >>>> recoverId");
@@ -232,5 +237,6 @@ public class UserCtrl {
     
         return response;
     }
+
 
 }

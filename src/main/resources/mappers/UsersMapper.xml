@@ -91,9 +91,17 @@
         ORDER BY bid_time DESC
     </select>
 
+
+    <!-- inquiriesByStatusRow --> 
+
+    <select id="inquiriesByStatusRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.InquiryDto">
+        SELECT * FROM inquiries WHERE user_id = #{user_id} AND response_status = #{status}
+    </select>
+
+    <!-- inquiriesRow -->
+
     <select id="inquiriesRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.InquiryDto">
         SELECT * FROM inquiries WHERE user_id = #{user_id}
-    
     </select>
     
     </mapper>

@@ -21,6 +21,7 @@ import com.autcion.auction_back.UsersPage.domain.MarketDataDto;
 import com.autcion.auction_back.UsersPage.domain.MarketWishListDto;
 import com.autcion.auction_back.UsersPage.domain.MileageDto;
 import com.autcion.auction_back.UsersPage.domain.UserDataDto;
+import com.autcion.auction_back.UsersPage.domain.InquiryDto;
 import com.autcion.auction_back.UsersPage.service.LoginService;
 import com.autcion.auction_back.UsersPage.service.ProfileService;
 import com.autcion.auction_back.UsersPage.service.RecoverService;
@@ -170,6 +171,7 @@ class OauthdemoApplication{
 		System.out.println("DeleteAccount: " + result);
 	}
 */
+
 	@Test
 	@DisplayName("마일리지 조회")
 	public void testCheckMileage() {
@@ -265,4 +267,17 @@ class OauthdemoApplication{
 		}
 	
 	}
+
+	@Test
+	@DisplayName("문의 조회")
+	public void testMyInquiries() {
+		String userId = "11";
+		List<InquiryDto> inquiries = profileService.myInquiries(userId);
+		System.out.println("Inquiries: " + inquiries);
+
+		List<InquiryDto> inquiriesByStatus = profileService.myInquiriesByStatus(userId, "pending");
+		System.out.println("InquiriesByStatus: " + inquiriesByStatus);
+	}
+
+
 }

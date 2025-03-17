@@ -33,5 +33,7 @@ public interface UsersMapper {
 
     public List<AuctionBidsDto> myBidsRow(String user_id);
 
+    public List<InquiryDto> inquiriesByStatusRow(String user_id, String status);
+
     public List<InquiryDto> inquiriesRow(String user_id);
 }
