@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.autcion.auction_back.UsersPage.dao.UsersMapper">
+
+    <!-- loginRow --> 
+
+    <select id="loginRow" parameterType="com.autcion.auction_back.UsersPage.domain.LoginDto" resultType="Integer">
+        SELECT
+            COUNT(*)
+        FROM
+            users
+        WHERE
+            login_id = #{loginId}
+            AND password = #{password}
+    </select>
+
+    <!-- registerRow --> 
+
+    <insert id="registerRow" parameterType="com.autcion.auction_back.UsersPage.domain.UserDataDto">
+        INSERT INTO users (login_id, password, name, nickname, email, phone, address, created_at)
+        VALUES (#{loginId}, #{password}, #{name}, #{nickname}, #{email}, #{phone}, #{address}, NOW())
+    </insert>
+
+    <!-- profile --> 
+
+    <select id="profileRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.dao.ProfileDao">
+        SELECT * FROM users WHERE login_id = #{value}
+    </select>
+
+    <!-- updateProfileRow --> 
+
+    <update id="updateProfileRow" parameterType="com.autcion.auction_back.UsersPage.domain.UserDataDto">
+        UPDATE users 
+        SET name = #{name}, nickname = #{nickname}, email = #{email}, phone = #{phone}, address = #{address}
+        WHERE nickname = #{nickname}
+    </update>
+
+    <!-- recoverId --> 
+
+    <select id="recoverIdRow" parameterType="com.autcion.auction_back.UsersPage.domain.UserDataDto" resultType="String">
+        SELECT login_id FROM users WHERE name = #{name} AND phone = #{phone}
+    </select>    
+
+    <!-- recoverPassword --> 
+
+    <select id="recoverPasswordRow" parameterType="com.autcion.auction_back.UsersPage.domain.UserDataDto" resultType="Integer">
+        SELECT count(*) FROM users 
+        WHERE login_id = #{loginId} 
+        AND name = #{name} 
+        AND phone = #{phone}
+    </select>    
+
+    <!-- updatePassword --> 
+
+    <update id="updatePasswordRow" parameterType="com.autcion.auction_back.UsersPage.domain.UserDataDto">
+        UPDATE users SET password = #{password} WHERE login_id = #{loginId}
+    </update>
+
+    </mapper>
