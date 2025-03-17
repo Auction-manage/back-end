@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.autcion.auction_back.UsersPage.dao.SaleHistoryMapper">
+
+    <select id="AuctionDataRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.AuctionDataDto">
+        SELECT * FROM auction_items WHERE seller_id = #{user_id}
+    </select>
+
+    <select id="checkWishListRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.AuctionWishListDto">
+        SELECT 
+            auction_wishlists.user_id,
+            auction_wishlists.item_id,
+            auction_wishlists.created_at,
+            auction_items.seller_nickname,
+            auction_items.title,
+            auction_items.description,
+            auction_items.start_price,
+            auction_items.current_price,
+            auction_items.end_time,
+            auction_items.status,
+            auction_items.seller_id
+        FROM auction_wishlists
+        INNER JOIN auction_items
+        ON auction_wishlists.item_id = auction_items.item_id
+        WHERE auction_wishlists.user_id = #{user_id}
+    </select>
+
+    <select id="MarketDataRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.MarketDataDto">
+        SELECT  virtual_market.market_id,
+                virtual_market.seller_id,
+                virtual_market.seller_nickname,
+                virtual_market.created_at,
+                virtual_market.updated_at,
+                virtual_market.item_count,
+                virtual_market.rating,
+                virtual_market.store_type,
+                virtual_market.item_id,
+                market_items.title,
+                market_items.description,
+                market_items.price,
+                market_items.status
+        FROM virtual_market 
+        INNER JOIN market_items 
+        ON virtual_market.item_id = market_items.item_id 
+        WHERE virtual_market.seller_id = #{user_id}
+    </select>
+
+    <select id="checkMarketWishListRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.MarketWishListDto">
+        SELECT 
+            market_wishlists.user_id,
+            market_wishlists.item_id,
+            market_wishlists.created_at,
+
+            market_items.title,
+            market_items.description,
+            market_items.price,
+            market_items.status,
+
+            virtual_market.seller_id,
+            virtual_market.seller_nickname,
+            virtual_market.item_count,
+            virtual_market.rating,
+            virtual_market.store_type
+        FROM market_wishlists
+        INNER JOIN market_items
+        ON market_wishlists.item_id = market_items.item_id
+        INNER JOIN virtual_market
+        ON market_items.item_id = virtual_market.item_id
+        WHERE market_wishlists.user_id = #{user_id}
+    </select>
+
+
+</mapper>
