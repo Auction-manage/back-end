@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.autcion.auction_back.UsersPage.dao.ProfileDao;
+import com.autcion.auction_back.UsersPage.domain.AuctionBidsDto;
 import com.autcion.auction_back.UsersPage.domain.AuctionDataDto;
 import com.autcion.auction_back.UsersPage.domain.AuctionWishListDto;
+import com.autcion.auction_back.UsersPage.domain.InquiryDto;
 import com.autcion.auction_back.UsersPage.domain.LoginDto;
 import com.autcion.auction_back.UsersPage.domain.MarketDataDto;
 import com.autcion.auction_back.UsersPage.domain.MarketWishListDto;
+import com.autcion.auction_back.UsersPage.domain.MileageDto;
 import com.autcion.auction_back.UsersPage.domain.UserDataDto;
 import com.autcion.auction_back.UsersPage.service.LoginService;
 import com.autcion.auction_back.UsersPage.service.ProfileService;
@@ -50,7 +53,7 @@ public class UserCtrl {
         return "confirm";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/register") // 화원가입
     public String register(@RequestBody UserDataDto registerDto) {
         System.out.println("debug >>>> registerDto " + registerDto);
 
@@ -61,7 +64,7 @@ public class UserCtrl {
         return result;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login") // 로그인
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
         System.out.println("debug >>>> loginDto " + loginDto);
 
@@ -74,7 +77,7 @@ public class UserCtrl {
         }
     }
 
-    @GetMapping("/profile")
+    @GetMapping("/profile") // 프로필 조회
     public ResponseEntity<ProfileDao> profile(@RequestParam String username) {
         System.out.println("debug >>>> profile");
 
@@ -85,7 +88,7 @@ public class UserCtrl {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/profile/update")
+    @PostMapping("/profile/update") // 프로필 수정
     public ProfileDao updateProfile(@RequestBody UserDataDto registerDto) {
 
         UserDataDto result = profileService.updateProfile(registerDto);
@@ -98,7 +101,19 @@ public class UserCtrl {
 
     }
 
-    @GetMapping("/profile/wishlist")
+    @PutMapping("/profile/delete") // 회원 탈퇴
+    public String deleteAccount(@RequestParam String user_id) {
+        System.out.println("debug >>>> deleteAccount");
+
+        String result = profileService.deleteAccount(user_id);
+
+        System.out.println("debug >>>> result " + result);
+
+        return result;
+    }
+
+
+    @GetMapping("/profile/wishlist") // 찜목록 조회
     public Map<String, Object> checkwhishlist(@RequestParam String user_id) {
         System.out.println("debug >>>> wishlist");
 
@@ -113,35 +128,65 @@ public class UserCtrl {
         return response;
     }
 
-    @GetMapping("/sale/history")
-    public Map<String, Object> salehistories(@RequestParam String user_id) {
-        System.out.println("debug >>>> salehistory");
+    @PutMapping("/profile/wishlist/delete") // 찜목록 삭제
+    public String deleteWishlist(@RequestParam String user_id, @RequestParam String auction_id, @RequestParam String type) {
+        System.out.println("debug >>>> deleteWishlist");
 
-        List<AuctionDataDto> auctionData = saleHistoryService.getAuctionData(user_id);
-        List<MarketDataDto> marketData = saleHistoryService.getMarketData(user_id);
+        String result = profileService.deleteWishlist(user_id, auction_id, type);
+
+        return result;
+    }
+
+    @GetMapping("/profile/bids") // 내가 입찰 중인 상품품
+    public Map<String, Object> checkBids(@RequestParam String user_id) {
+        System.out.println("debug >>>> checkBids");
+
+        List<AuctionBidsDto> myBids = profileService.myBids(user_id);
+
+        System.out.println("debug >>>> myBids " + myBids);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("auctionData", auctionData);
-        response.put("marketData", marketData);
+        response.put("myBids", myBids);
 
         return response;
     }
 
-    @GetMapping("/recover/id")
+    @GetMapping("/profile/mileage") // 마일리지 조회
+    public List<MileageDto> checkMileage(@RequestParam String user_id) {
+        System.out.println("debug >>>> getMileage");
+
+        List<MileageDto> result = profileService.checkMileage(user_id);
+
+        System.out.println("debug >>>> result " + result);
+
+        return result;
+    }    
+    
+    @GetMapping("/profile/inquires")
+    public List<InquiryDto>  getMethodName(@RequestParam String user_id) {
+        System.out.println("debug >>>> getMethodName");
+
+        List<InquiryDto> result = profileService.myInquiries(user_id);
+
+        return null;
+    }
+    
+
+    @GetMapping("/recover/id") //아이디 찾기기
     public String recoverId(@RequestParam String name, String phone) {
         System.out.println("debug >>>> recoverId");
-
+        
         UserDataDto param = UserDataDto.builder()
                 .name(name)
                 .phone(phone)
                 .build();
 
-        String result = recoverService.recoverId(param);
-
-        return result;
-    }
-
-    @GetMapping("/recover/password")
+                String result = recoverService.recoverId(param);
+                
+                return result;
+            }
+            
+    @GetMapping("/recover/password") // 비밀번호 찾기
     public String recoverPassword(@RequestParam String user_id, String name, String phone) {
         System.out.println("debug >>>> recoverPassword");
 
@@ -150,27 +195,42 @@ public class UserCtrl {
                 .name(name)
                 .phone(phone)
                 .build();
-
-        String result = recoverService.recoverPassword(param);
-
+                
+                String result = recoverService.recoverPassword(param);
+                
         System.out.println("debug >>>> result " + result);
 
         return result;
     }
-
-    @PutMapping("/recover/password/update")
+    
+    @PutMapping("/recover/password/update") // 비밀번호 수정
     public String updatePassword(@RequestParam String password, String user_id) {
         System.out.println("debug >>>> updatePassword");
 
         UserDataDto param = UserDataDto.builder()
-                .loginId(user_id)
-                .password(password)
-                .build();
-
+        .loginId(user_id)
+        .password(password)
+        .build();
+        
         String result = recoverService.updatePassword(param);
-
+        
         System.out.println("debug >>>> result " + result);
-
+        
         return result;
     }
+
+    @GetMapping("/sale/history") // 내 판매내역 조회
+    public Map<String, Object> salehistories(@RequestParam String user_id) {
+        System.out.println("debug >>>> salehistory");
+    
+        List<AuctionDataDto> auctionData = saleHistoryService.getAuctionData(user_id);
+        List<MarketDataDto> marketData = saleHistoryService.getMarketData(user_id);
+    
+        Map<String, Object> response = new HashMap<>();
+        response.put("auctionData", auctionData);
+        response.put("marketData", marketData);
+    
+        return response;
+    }
+
 }

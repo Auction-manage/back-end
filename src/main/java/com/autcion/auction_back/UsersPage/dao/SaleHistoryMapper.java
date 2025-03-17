@@ -19,4 +19,8 @@ public interface SaleHistoryMapper {
     public List<AuctionWishListDto> checkWishListRow(String user_id);
 
     public List<MarketWishListDto> checkMarketWishListRow(String user_id);
+
+    public int deleteAuctionWishlistRow(String user_id, String auction_id);
+
+    public int deleteMarketWishlistRow(String user_id, String market_id);
 }

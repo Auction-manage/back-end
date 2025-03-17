@@ -57,4 +57,43 @@
         UPDATE users SET password = #{password} WHERE login_id = #{loginId}
     </update>
 
+    <!-- deleteAccountRow --> 
+
+    <update id="deleteAccountRow">
+        UPDATE users SET is_deleted = 1 WHERE login_id = #{loginId}
+    </update>
+
+    <!-- checkMileageRow --> 
+
+    <select id="checkMileageRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.MileageDto">
+        SELECT 
+            m.user_id,
+            m.amount,
+            m.created_at,
+            m.updated_at,
+            (SELECT SUM(amount) FROM mileage WHERE user_id = #{user_id}) AS total_mileage
+        FROM mileage m
+        WHERE m.user_id = #{user_id}
+        ORDER BY m.created_at DESC
+    </select>
+
+    <!-- myBidsRow --> 
+
+    <select id="myBidsRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.AuctionBidsDto">
+        SELECT 
+            item_id,
+            bidder_id,
+            bidder_nickname,
+            bid_price,
+            bid_time
+        FROM bids
+        WHERE bidder_id = #{user_id}
+        ORDER BY bid_time DESC
+    </select>
+
+    <select id="inquiriesRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.InquiryDto">
+        SELECT * FROM inquiries WHERE user_id = #{user_id}
+    
+    </select>
+    
     </mapper>

@@ -71,4 +71,20 @@
     </select>
 
 
-</mapper>
+    <!-- deleteWishlistRow --> 
+
+    <delete id="deleteAuctionWishlistRow">
+        DELETE FROM auction_wishlists WHERE user_id = #{user_id} AND wishlist_id = #{auction_id}
+    </delete>
+
+    <!-- deleteAuctionWishlistRow --> 
+
+    <delete id="deleteMarketWishlistRow">
+        DELETE FROM market_wishlists WHERE user_id = #{user_id} AND wishlist_id = #{market_id}
+    </delete>
+    
+    
+    
+    
+    
+    </mapper>
