@@ -22,6 +22,8 @@ public class JwtUtil {
 
     // JWT 토큰 생성 메서드
     public String createToken(String loginId, int userId, String nickname) {
+
+        System.out.println("jwt token 생성");
         // 토큰에 포함될 클레임(데이터) 설정
         Claims claims = Jwts.claims().setSubject(loginId);
         claims.put("userId", userId);
@@ -31,6 +33,8 @@ public class JwtUtil {
         // 토큰 만료 시간 설정
         Date validity = new Date(now.getTime() + tokenValidityInMilliseconds);
 
+        System.out.println("만료 시간" + validity);
+        System.out.println("jwt token 생성 완료");
         // JWT 토큰 생성
         return Jwts.builder()
                 .setClaims(claims)          // 클레임 정보 설정
@@ -38,10 +42,13 @@ public class JwtUtil {
                 .setExpiration(validity)     // 토큰 만료 시간
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()), SignatureAlgorithm.HS256) // 비밀키로 서명
                 .compact();
+
+        
     }
 
     // 토큰에서 사용자 ID 추출 메서드
     public String getLoginIdFromToken(String token) {
+        System.out.println("jwt token 추출");
         return Jwts.parserBuilder()                   // JWT 파서를 생성하기 위한 빌더 시작
                 .setSigningKey(                       // 토큰 검증을 위한 서명 키 설정
                     Keys.hmacShaKeyFor(               // HMAC-SHA256 알고리즘을 사용하여 키 생성
@@ -56,6 +63,9 @@ public class JwtUtil {
 
     // 토큰 유효성 검증 메서드
     public boolean validateToken(String token) {
+        System.out.println("jwt token 유효성 검증");
+        System.out.println("jwt token 유효성 검증");
+        System.out.println("jwt token 유효성 검증");
         try {
             // 토큰 파싱 시도 - 성공하면 유효한 토큰
             Jwts.parserBuilder()

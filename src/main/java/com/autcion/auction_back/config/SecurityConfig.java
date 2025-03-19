@@ -40,9 +40,16 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                     // 인증없이 접근 가능한 경로 설정
-                    .requestMatchers("/", "/login/**", "/register", "/recover/**").permitAll()
+                    .requestMatchers("/", "/login/**", "loginProc", "/register", "/recover/**", "/profile/**").permitAll()
                     // 그 외 모든 요청은 인증 필요
                     .anyRequest().authenticated())
+                .formLogin(form -> form
+                    .loginPage("/login")
+                    // .loginProcessingUrl("/login")
+                    .defaultSuccessUrl("/profile")
+                    // .failureUrl("/login")
+                    .permitAll()
+                )
                 // JWT 인증 필터 추가
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 // OAuth2 로그인 설정
@@ -51,7 +58,8 @@ public class SecurityConfig {
                     .failureHandler(failureHandler)
                     .userInfoEndpoint(user -> user
                         .userService(userService)
-                    ))
+                    )
+                    .disable())
                 .build();
     }
 

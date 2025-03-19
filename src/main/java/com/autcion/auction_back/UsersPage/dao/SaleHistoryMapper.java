@@ -16,7 +16,7 @@ public interface SaleHistoryMapper {
 
     public List<MarketDataDto> MarketDataRow(String user_id);
 
-    public List<AuctionWishListDto> checkWishListRow(String user_id);
+    public List<AuctionWishListDto> checkAuctionWishListRow(String user_id);
 
     public List<MarketWishListDto> checkMarketWishListRow(String user_id);
 

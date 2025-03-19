@@ -12,7 +12,6 @@
             users
         WHERE
             login_id = #{loginId}
-            AND password = #{password}
     </select>
 
     <!-- registerRow --> 

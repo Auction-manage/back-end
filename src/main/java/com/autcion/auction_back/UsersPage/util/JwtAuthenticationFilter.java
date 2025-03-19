@@ -27,11 +27,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("jwt 필터 적용");
         // 요청 헤더에서 토큰 추출
         String token = resolveToken(request);
+        System.out.println("토큰 추출" + token);
 
         // 토큰이 존재하고 유효한 경우
         if (token != null && jwtUtil.validateToken(token)) {
+            System.out.println("유효한 토큰");
             // 토큰에서 사용자 ID 추출
             String loginId = jwtUtil.getLoginIdFromToken(token);
             // 인증 객체 생성
@@ -46,7 +49,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     // Authorization 헤더에서 토큰 추출
     private String resolveToken(HttpServletRequest request) {
+        System.out.println("토큰 추출 시작");
         String bearerToken = request.getHeader("Authorization");
+        System.out.println("토큰 추출 완료" + bearerToken);
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7); // "Bearer " 제거
         }

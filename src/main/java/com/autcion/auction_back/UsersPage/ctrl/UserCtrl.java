@@ -59,11 +59,14 @@ public class UserCtrl {
         return result;
     }
 
-    @PostMapping("/login") // 로그인
+    @GetMapping("/login") // 로그인
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
+
         System.out.println("debug >>>> loginDto " + loginDto);
 
         Map<String, String> result = loginService.login(loginDto);
+
+        System.out.println("debug >>>> result " + result);
 
         if (result.get("status").equals("success")) {
             return ResponseEntity.ok(result);
@@ -72,7 +75,26 @@ public class UserCtrl {
         }
     }
 
-    @GetMapping("/profile") // 프로필 조회
+/*
+    @PostMapping("/loginProc")
+    public ResponseEntity<?> loginProc(@RequestBody LoginDto loginDto) {
+
+        System.out.println("debug >>>> loginDto " + loginDto);
+
+        Map<String, String> result = loginService.login(loginDto);
+
+        System.out.println("debug >>>> result " + result);
+
+        if (result.get("status").equals("success")) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        }
+        
+    }
+*/
+    
+@GetMapping("/profile") // 프로필 조회
     public ResponseEntity<ProfileDao> profile(@RequestParam String username) {
         System.out.println("debug >>>> profile");
 
@@ -111,13 +133,15 @@ public class UserCtrl {
     public Map<String, Object> checkwhishlist(@RequestParam String user_id) {
         System.out.println("debug >>>> wishlist");
 
-        List<AuctionWishListDto> auctionData = profileService.checkWishList(user_id);
+        List<AuctionWishListDto> auctionWishListData = profileService.checkWishList(user_id);
+        System.out.println("debug >>>> auctionWishListData " + auctionWishListData);
 
-        List<MarketWishListDto> marketData = profileService.checkMarketWishList(user_id);
+        List<MarketWishListDto> marketWishListData = profileService.checkMarketWishList(user_id);
+        System.out.println("debug >>>> marketWishListData " + marketWishListData);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("auctionData", auctionData);
-        response.put("marketData", marketData);
+        response.put("auctionWishListData", auctionWishListData);
+        response.put("marketWishListData", marketWishListData);
 
         return response;
     }
@@ -154,7 +178,7 @@ public class UserCtrl {
         System.out.println("debug >>>> result " + result);
 
         return result;
-    }    
+    }
     
     @GetMapping("/profile/inquiries")
     public ResponseEntity<?> getInquiries(

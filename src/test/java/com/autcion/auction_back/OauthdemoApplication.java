@@ -16,12 +16,12 @@ import com.autcion.auction_back.UsersPage.dao.ProfileDao;
 import com.autcion.auction_back.UsersPage.domain.AuctionBidsDto;
 import com.autcion.auction_back.UsersPage.domain.AuctionDataDto;
 import com.autcion.auction_back.UsersPage.domain.AuctionWishListDto;
+import com.autcion.auction_back.UsersPage.domain.InquiryDto;
 import com.autcion.auction_back.UsersPage.domain.LoginDto;
 import com.autcion.auction_back.UsersPage.domain.MarketDataDto;
 import com.autcion.auction_back.UsersPage.domain.MarketWishListDto;
 import com.autcion.auction_back.UsersPage.domain.MileageDto;
 import com.autcion.auction_back.UsersPage.domain.UserDataDto;
-import com.autcion.auction_back.UsersPage.domain.InquiryDto;
 import com.autcion.auction_back.UsersPage.service.LoginService;
 import com.autcion.auction_back.UsersPage.service.ProfileService;
 import com.autcion.auction_back.UsersPage.service.RecoverService;
@@ -243,7 +243,7 @@ class OauthdemoApplication{
 	
 	@Test
 	@DisplayName("비밀번호 찾기")
-	public void testRecoverord() {
+	public void testRecoverorPwd() {
 
 		UserDataDto registerDto = UserDataDto.builder()
 											.loginId("test1")

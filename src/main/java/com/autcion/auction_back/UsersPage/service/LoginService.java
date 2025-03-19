@@ -32,11 +32,12 @@ public class LoginService {
         try {
             // 1. 입력값 검증
             if (loginDto.getLoginId() == null || loginDto.getPassword() == null) {
-                response.put("status", "fail");
-                response.put("message", "Invalid input");
+                response.put("status", "fail ");
+                response.put("message", "Invalid input ");
                 return response;
             }
-
+            System.out.println("debug >>>> login_id " + loginDto.getLoginId());
+            System.out.println("debug >>>> password " + loginDto.getPassword());
             // 2. 사용자 정보 조회
             ProfileDao user = usersMapper.profileRow(loginDto.getLoginId());
             System.out.println("debug >>>> loginService login - " + user);
