@@ -11,6 +11,7 @@ import com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO;
 import com.autcion.auction_back.common.BidsDTO;
 import com.autcion.auction_back.common.ConsignmentDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootTest
@@ -38,14 +39,14 @@ public class AuctionItemTest {
     @DisplayName("물품(경매) 등록")
     public void testInsertAuctionItem() {
         AuctionItemDTO newItem = AuctionItemDTO.builder()
-                .seller_id(10)
-                .seller_nickname("sellerNick")
+                .seller_id(3)
+                .seller_nickname("test")
                 .title("Test Auction Item")
                 .description("Test Auction Description")
                 .start_price(1000.00)
                 .current_price(1000.00)
                 .status("active")
-                .end_time("2025-12-31 23:59:59")
+                .end_time(LocalDateTime.of(2025, 12, 31, 23, 59, 59))
                 .build();
         int result = auctionItemMapper.insertAuctionItem(newItem);
         System.out.println("Insert Auction Item Result: " + result);
@@ -76,9 +77,9 @@ public class AuctionItemTest {
     @DisplayName("물품(경매) 입찰")
     public void testPlaceBid() {
         BidsDTO bid = BidsDTO.builder()
-                .item_id(2) // example
-                .bidder_id(100)
-                .bidder_nickname("bidderNick")
+                .item_id(9)
+                .bidder_id(27)
+                .bidder_nickname("test123")
                 .bid_price(1500.00)
                 .build();
         int result = auctionItemMapper.placeBid(bid);
@@ -98,9 +99,9 @@ public class AuctionItemTest {
     public void testRegisterConsignmentSale() {
         ConsignmentDTO consignment = ConsignmentDTO.builder()
                 .transaction_id(1000)
-                .buyer_id(200)
-                .buyer_nickname("buyerNick")
-                .buyer_address("buyerAddress")
+                .buyer_id(27)
+                .buyer_nickname("test123")
+                .buyer_address("test123")
                 .build();
         int result = auctionItemMapper.registerConsignmentSale(consignment);
         System.out.println("Register Consignment Sale Result: " + result);

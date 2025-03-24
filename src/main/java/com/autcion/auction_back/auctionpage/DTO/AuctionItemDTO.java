@@ -1,5 +1,7 @@
 package com.autcion.auction_back.auctionpage.DTO;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +20,7 @@ public class AuctionItemDTO {
     private double start_price;
     private double current_price;
     private String status; // active, inactive
-    private String created_at; // could be LocalDateTime
-    private String updated_at; // could be LocalDateTime
-    private String end_time;   // could be LocalDateTime
+    private LocalDateTime created_at;
+    private LocalDateTime updated_at;
+    private LocalDateTime end_time;
 }
