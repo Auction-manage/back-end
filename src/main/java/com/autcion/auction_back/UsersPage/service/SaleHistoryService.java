@@ -15,14 +15,14 @@ public class SaleHistoryService {
     @Autowired
     private SaleHistoryMapper saleHistoryMapper;
 
-    public List<AuctionDataDto> getAuctionData(String user_id) {
+    public List<AuctionDataDto> getAuctionData(Integer user_id) {
 
         List<AuctionDataDto> auctionData = saleHistoryMapper.AuctionDataRow(user_id);
 
         return auctionData;
     }
 
-    public List<MarketDataDto> getMarketData(String user_id) {
+    public List<MarketDataDto> getMarketData(Integer user_id) {
 
         List<MarketDataDto> marketData = saleHistoryMapper.MarketDataRow(user_id);
 

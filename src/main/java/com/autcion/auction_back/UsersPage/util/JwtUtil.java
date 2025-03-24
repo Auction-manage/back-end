@@ -1,6 +1,8 @@
 package com.autcion.auction_back.UsersPage.util;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -46,25 +48,28 @@ public class JwtUtil {
         
     }
 
-    // 토큰에서 사용자 ID 추출 메서드
-    public String getLoginIdFromToken(String token) {
+    // 토큰에서 모든 클레임 추출 메서드
+    private Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    // 토큰에서 사용자 정보 추출 메서드
+    public Map<String, Object> getInfoFromToken(String token) {
         System.out.println("jwt token 추출");
-        return Jwts.parserBuilder()                   // JWT 파서를 생성하기 위한 빌더 시작
-                .setSigningKey(                       // 토큰 검증을 위한 서명 키 설정
-                    Keys.hmacShaKeyFor(               // HMAC-SHA256 알고리즘을 사용하여 키 생성
-                        secretKey.getBytes()          // 문자열 시크릿 키를 바이트 배열로 변환
-                    )
-                )
-                .build()                             // JWT 파서 빌드
-                .parseClaimsJws(token)               // JWT 토큰을 파싱하고 검증
-                .getBody()                           // JWT의 페이로드(Claims) 부분을 가져옴
-                .getSubject();                       // Claims에서 Subject(여기서는 loginId) 추출
+        Claims claims = extractAllClaims(token);
+        Map<String, Object> info = new HashMap<>();
+        info.put("loginId", claims.getSubject());
+        info.put("userId", claims.get("userId"));
+        info.put("nickname", claims.get("nickname"));
+        return info;
     }
 
     // 토큰 유효성 검증 메서드
     public boolean validateToken(String token) {
-        System.out.println("jwt token 유효성 검증");
-        System.out.println("jwt token 유효성 검증");
         System.out.println("jwt token 유효성 검증");
         try {
             // 토큰 파싱 시도 - 성공하면 유효한 토큰
@@ -74,6 +79,7 @@ public class JwtUtil {
                 .parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
+            System.out.println("유효 하지 않은 토큰");
             // 파싱 실패시 유효하지 않은 토큰
             return false;
         }

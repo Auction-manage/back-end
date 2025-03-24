@@ -27,24 +27,26 @@ public class ProfileService {
         @Autowired
         private SaleHistoryMapper saleHistoryMapper;
     
-    public ProfileDao profile(String username) {
+    public ProfileDao profile(Integer user_id) {
         System.out.println("debug >>>> profileService");
 
-        ProfileDao result = usersMapper.profileRow(username);
+        ProfileDao result = usersMapper.profileRow(user_id);
 
         return result;
     }
 
-    public UserDataDto updateProfile(UserDataDto registerDto) {
+    public String updateProfile(UserDataDto registerDto) {
         System.out.println("debug >>>> updateProfileService");
         
-        int result = usersMapper.updateProfileRow(registerDto);
+        Integer result = usersMapper.updateProfileRow(registerDto);
+
+        System.out.println("debug >>>> profile update result " + result);
         
         // 업데이트 성공시 수정된 정보 반환
         if (result > 0) {
-            return registerDto;
+            return "successfully updated";
         }
-        return null;  // 업데이트 실패시 null 반환
+        return "update failed";  // 업데이트 실패시 null 반환
     }
 
     public String deleteAccount(String user_id) {
@@ -59,7 +61,7 @@ public class ProfileService {
         }
     }
 
-    public List<MileageDto> checkMileage(String user_id) {
+    public List<MileageDto> checkMileage(Integer user_id) {
         System.out.println("debug >>>> checkMileageService");
 
         List<MileageDto> result = usersMapper.checkMileageRow(user_id);
@@ -67,7 +69,7 @@ public class ProfileService {
         return result;
     }
 
-    public List<AuctionWishListDto> checkWishList(String user_id) {
+    public List<AuctionWishListDto> checkWishList(Integer user_id) {
         System.out.println("debug >>>> checkWishListService");
     
         List<AuctionWishListDto> result = saleHistoryMapper.checkAuctionWishListRow(user_id);
@@ -77,7 +79,7 @@ public class ProfileService {
         return result;
     }
     
-    public List<MarketWishListDto> checkMarketWishList(String user_id) {
+    public List<MarketWishListDto> checkMarketWishList(Integer user_id) {
         System.out.println("debug >>>> checkMarketWishListService");
     
         List<MarketWishListDto> result = saleHistoryMapper.checkMarketWishListRow(user_id);
@@ -87,7 +89,7 @@ public class ProfileService {
         return result;
     }
 
-    public String deleteWishlist(String user_id, String auction_id, String type) {
+    public String deleteWishlist(Integer user_id, String auction_id, String type) {
         System.out.println("debug >>>> deleteWishlistService " + user_id + " " + auction_id + " " + type);
         
         try {
@@ -121,7 +123,7 @@ public class ProfileService {
         return result;
     }
 
-    public Object getInquiries(String user_id, String status, boolean grouped) {
+    public Object getInquiries(Integer user_id, String status, boolean grouped) {
         System.out.println("debug >>>> getInquiries - status: " + status + ", grouped: " + grouped);
         
         // 1. 문의 데이터 가져오기 (상태 필터링 적용)
@@ -166,12 +168,12 @@ public class ProfileService {
     }
     
     // 기존 메서드 유지 (하위 호환성)
-    public List<InquiryDto> myInquiries(String user_id) {
+    public List<InquiryDto> myInquiries(Integer user_id) {
         System.out.println("debug >>>> myInquiriesService");
         return (List<InquiryDto>) getInquiries(user_id, null, false);
     }
 
-    public List<InquiryDto> myInquiriesByStatus(String user_id, String status) {
+    public List<InquiryDto> myInquiriesByStatus(Integer user_id, String status) {
         System.out.println("debug >>>> myInquiriesByStatusService");
         return (List<InquiryDto>) getInquiries(user_id, status, false);
     }

@@ -7,39 +7,67 @@
 
     <select id="loginRow" parameterType="com.autcion.auction_back.UsersPage.domain.LoginDto" resultType="Integer">
         SELECT
-            COUNT(*)
+            user_id
         FROM
             users
         WHERE
             login_id = #{loginId}
     </select>
 
-    <!-- registerRow --> 
+    <!-- registerRow -->
 
     <insert id="registerRow" parameterType="com.autcion.auction_back.UsersPage.domain.UserDataDto">
         INSERT INTO users (login_id, password, name, nickname, email, phone, address, created_at)
         VALUES (#{loginId}, #{password}, #{name}, #{nickname}, #{email}, #{phone}, #{address}, NOW())
     </insert>
 
-    <!-- profile --> 
+    <!-- profile -->
 
-    <select id="profileRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.dao.ProfileDao">
-        SELECT * FROM users WHERE login_id = #{value}
+    <select id="profileRow" parameterType="Integer" resultType="com.autcion.auction_back.UsersPage.dao.ProfileDao">
+        SELECT
+            user_id,
+            name,
+            nickname,
+            login_id,
+            phone,
+            email,
+            address,
+            created_at,
+            updated_at,
+            admin_info,
+            seller_rank,
+            buyer_rank,
+            provider,
+            provider_login_id
+        FROM
+            users
+        WHERE
+            user_id = #{userId}
+    </select>
+
+    <select id="compareLoginInfoRow" parameterType="Integer" resultType="com.autcion.auction_back.UsersPage.domain.UserDataDto">
+        SELECT
+            *
+        FROM
+            users
+        WHERE
+            user_id = #{user_id}
+
     </select>
 
     <!-- updateProfileRow --> 
 
     <update id="updateProfileRow" parameterType="com.autcion.auction_back.UsersPage.domain.UserDataDto">
-        UPDATE users 
+        UPDATE users
         SET name = #{name}, nickname = #{nickname}, email = #{email}, phone = #{phone}, address = #{address}
         WHERE nickname = #{nickname}
     </update>
 
-    <!-- recoverId --> 
+    <!-- recoverId -->
 
     <select id="recoverIdRow" parameterType="com.autcion.auction_back.UsersPage.domain.UserDataDto" resultType="String">
         SELECT login_id FROM users WHERE name = #{name} AND phone = #{phone}
-    </select>    
+    </select>
 
     <!-- recoverPassword --> 
 
@@ -64,7 +92,7 @@
 
     <!-- checkMileageRow --> 
 
-    <select id="checkMileageRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.MileageDto">
+    <select id="checkMileageRow" parameterType="Integer" resultType="com.autcion.auction_back.UsersPage.domain.MileageDto">
         SELECT 
             m.user_id,
             m.amount,
@@ -93,13 +121,13 @@
 
     <!-- inquiriesByStatusRow --> 
 
-    <select id="inquiriesByStatusRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.InquiryDto">
+    <select id="inquiriesByStatusRow" parameterType="Integer" resultType="com.autcion.auction_back.UsersPage.domain.InquiryDto">
         SELECT * FROM inquiries WHERE user_id = #{user_id} AND response_status = #{status}
     </select>
 
     <!-- inquiriesRow -->
 
-    <select id="inquiriesRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.InquiryDto">
+    <select id="inquiriesRow" parameterType="Integer" resultType="com.autcion.auction_back.UsersPage.domain.InquiryDto">
         SELECT * FROM inquiries WHERE user_id = #{user_id}
     </select>
     

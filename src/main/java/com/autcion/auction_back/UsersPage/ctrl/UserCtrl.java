@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,7 +20,6 @@ import com.autcion.auction_back.UsersPage.dao.ProfileDao;
 import com.autcion.auction_back.UsersPage.domain.AuctionBidsDto;
 import com.autcion.auction_back.UsersPage.domain.AuctionDataDto;
 import com.autcion.auction_back.UsersPage.domain.AuctionWishListDto;
-import com.autcion.auction_back.UsersPage.domain.InquiryDto;
 import com.autcion.auction_back.UsersPage.domain.LoginDto;
 import com.autcion.auction_back.UsersPage.domain.MarketDataDto;
 import com.autcion.auction_back.UsersPage.domain.MarketWishListDto;
@@ -29,6 +30,7 @@ import com.autcion.auction_back.UsersPage.service.ProfileService;
 import com.autcion.auction_back.UsersPage.service.RecoverService;
 import com.autcion.auction_back.UsersPage.service.RegisterService;
 import com.autcion.auction_back.UsersPage.service.SaleHistoryService;
+import com.autcion.auction_back.UsersPage.util.JwtUtil;
 
 @RestController
 public class UserCtrl {
@@ -48,7 +50,10 @@ public class UserCtrl {
     @Autowired
     private RecoverService recoverService;
 
-    @PostMapping("/register") // 화원가입
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @PostMapping("/register") // 화원가입 해결
     public String register(@RequestBody UserDataDto registerDto) {
         System.out.println("debug >>>> registerDto " + registerDto);
 
@@ -59,7 +64,7 @@ public class UserCtrl {
         return result;
     }
 
-    @GetMapping("/login") // 로그인
+    @GetMapping("/login") // 로그인 해결결
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
 
         System.out.println("debug >>>> loginDto " + loginDto);
@@ -75,50 +80,39 @@ public class UserCtrl {
         }
     }
 
-/*
-    @PostMapping("/loginProc")
-    public ResponseEntity<?> loginProc(@RequestBody LoginDto loginDto) {
-
-        System.out.println("debug >>>> loginDto " + loginDto);
-
-        Map<String, String> result = loginService.login(loginDto);
-
-        System.out.println("debug >>>> result " + result);
-
-        if (result.get("status").equals("success")) {
-            return ResponseEntity.ok(result);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
-        }
-        
-    }
-*/
     
-@GetMapping("/profile") // 프로필 조회
-    public ResponseEntity<ProfileDao> profile(@RequestParam String username) {
+    @GetMapping("/profile") // 프로필 조회 해결결
+    public ResponseEntity<ProfileDao> profile() {
+
         System.out.println("debug >>>> profile");
 
-        ProfileDao result = profileService.profile(username);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        Map<String, Object> userInfo = (Map<String, Object>) auth.getPrincipal();
+
+        System.out.println("debug >>>> user_info " + userInfo);
+
+        Integer user_id = (Integer) userInfo.get("userId");
+
+        ProfileDao result = profileService.profile(user_id);
 
         System.out.println("debug >>>> result " + result);
 
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/profile/update") // 프로필 수정
-    public ProfileDao updateProfile(@RequestBody UserDataDto registerDto) {
+    @PostMapping("/profile/update") // 프로필 수정 해결결
+    public String updateProfile(@RequestBody UserDataDto registerDto) {
 
-        UserDataDto result = profileService.updateProfile(registerDto);
+        String result = profileService.updateProfile(registerDto);
 
         System.out.println("debug >>>> result " + result);
 
-        ProfileDao updateResult = profileService.profile(result.getNickname());
-
-        return updateResult;
+        return result;
 
     }
 
-    @PutMapping("/profile/delete") // 회원 탈퇴
+    @PutMapping("/profile/delete") // 회원 탈퇴 보류류
     public String deleteAccount(@RequestParam String user_id) {
         System.out.println("debug >>>> deleteAccount");
 
@@ -129,9 +123,17 @@ public class UserCtrl {
         return result;
     }
 
-    @GetMapping("/profile/wishlist") // 찜목록 조회
-    public Map<String, Object> checkwhishlist(@RequestParam String user_id) {
+    @GetMapping("/profile/wishlist") // 찜목록 조회 해결결
+    public Map<String, Object> checkwhishlist() {
         System.out.println("debug >>>> wishlist");
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        Map<String, Object> userInfo = (Map<String, Object>) auth.getPrincipal();
+
+        Integer user_id = (Integer) userInfo.get("userId");
+
+        System.out.println("debug >>>> user_id " + user_id + " " + userInfo.get("userId"));
 
         List<AuctionWishListDto> auctionWishListData = profileService.checkWishList(user_id);
         System.out.println("debug >>>> auctionWishListData " + auctionWishListData);
@@ -146,9 +148,16 @@ public class UserCtrl {
         return response;
     }
 
-    @PutMapping("/profile/wishlist/delete") // 찜목록 삭제
-    public String deleteWishlist(@RequestParam String user_id, @RequestParam String auction_id, @RequestParam String type) {
+    @PutMapping("/profile/wishlist/delete") // 찜목록 삭제 해결결
+    public String deleteWishlist(@RequestParam String auction_id, @RequestParam String type) {
+        
         System.out.println("debug >>>> deleteWishlist");
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        Map<String, Object> userInfo = (Map<String, Object>) auth.getPrincipal();
+
+        Integer user_id = (Integer) userInfo.get("userId");
 
         String result = profileService.deleteWishlist(user_id, auction_id, type);
 
@@ -169,8 +178,15 @@ public class UserCtrl {
         return response;
     }
 
-    @GetMapping("/profile/mileage") // 마일리지 조회
-    public List<MileageDto> checkMileage(@RequestParam String user_id) {
+    @GetMapping("/profile/mileage") // 마일리지 조회 해결결
+    public List<MileageDto> checkMileage() {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        Map<String, Object> userInfo = (Map<String, Object>) auth.getPrincipal();
+
+        Integer user_id = (Integer) userInfo.get("userId");
+
         System.out.println("debug >>>> getMileage");
 
         List<MileageDto> result = profileService.checkMileage(user_id);
@@ -180,26 +196,38 @@ public class UserCtrl {
         return result;
     }
     
-    @GetMapping("/profile/inquiries")
+    @GetMapping("/profile/inquiries") // 문의 조회 해결결
     public ResponseEntity<?> getInquiries(
-            @RequestParam String user_id,
             @RequestParam(required = false) String status,
             @RequestParam(required = false, defaultValue = "false") boolean grouped) {
         
         System.out.println("debug >>>> getInquiries - status: " + status + ", grouped: " + grouped);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        Map<String, Object> userInfo = (Map<String, Object>) auth.getPrincipal();
+
+        Integer user_id = (Integer) userInfo.get("userId");
         
         // 통합된 서비스 메서드 호출
         Object result = profileService.getInquiries(user_id, status, grouped);
         return ResponseEntity.ok(result);
     }
     
-    // 기존 메서드 유지 (하위 호환성)
-    @GetMapping("/profile/inquires")
-    public List<InquiryDto> getMethodName(@RequestParam String user_id) {
-        System.out.println("debug >>>> getMethodName");
-        List<InquiryDto> result = profileService.myInquiries(user_id);
-        return result;
-    }
+    // // 기존 메서드 유지 (하위 호환성)
+    // @GetMapping("/profile/inquires")
+    // public List<InquiryDto> getMethodName() {
+
+    //     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+    //     Map<String, Object> userInfo = (Map<String, Object>) auth.getPrincipal();
+
+    //     Integer user_id = (Integer) userInfo.get("userId");
+        
+    //     System.out.println("debug >>>> getMethodName");
+    //     List<InquiryDto> result = profileService.myInquiries(user_id);
+    //     return result;
+    // }
     
     @GetMapping("/recover/id") //아이디 찾기기
     public String recoverId(@RequestParam String name, String phone) {
@@ -248,9 +276,16 @@ public class UserCtrl {
         return result;
     }
 
-    @GetMapping("/sale/history") // 내 판매내역 조회
-    public Map<String, Object> salehistories(@RequestParam String user_id) {
+    @GetMapping("/sale/history") // 내 판매내역 조회 해결결
+    public Map<String, Object> salehistories() {
         System.out.println("debug >>>> salehistory");
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        Map<String, Object> userInfo = (Map<String, Object>) auth.getPrincipal();
+
+        Integer user_id = (Integer) userInfo.get("userId");
+
     
         List<AuctionDataDto> auctionData = saleHistoryService.getAuctionData(user_id);
         List<MarketDataDto> marketData = saleHistoryService.getMarketData(user_id);

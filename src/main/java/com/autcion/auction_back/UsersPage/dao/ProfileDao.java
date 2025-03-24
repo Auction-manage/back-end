@@ -11,7 +11,6 @@ public class ProfileDao {
     private String name;
     private String nickname;
     private String loginId;
-    private String password;
     private String phone;
     private String email;
     private String address;

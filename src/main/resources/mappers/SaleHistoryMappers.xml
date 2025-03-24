@@ -3,11 +3,11 @@
 
 <mapper namespace="com.autcion.auction_back.UsersPage.dao.SaleHistoryMapper">
 
-    <select id="AuctionDataRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.AuctionDataDto">
+    <select id="AuctionDataRow" parameterType="Integer" resultType="com.autcion.auction_back.UsersPage.domain.AuctionDataDto">
         SELECT * FROM auction_items WHERE seller_id = #{user_id}
     </select>
 
-    <select id="MarketDataRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.MarketDataDto">
+    <select id="MarketDataRow" parameterType="Integer" resultType="com.autcion.auction_back.UsersPage.domain.MarketDataDto">
         SELECT  virtual_market.market_id,
                 virtual_market.seller_id,
                 virtual_market.seller_nickname,
@@ -27,7 +27,7 @@
         WHERE virtual_market.seller_id = #{user_id}
     </select>
 
-    <select id="checkAuctionWishListRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.AuctionWishListDto">
+    <select id="checkAuctionWishListRow" parameterType="Integer" resultType="com.autcion.auction_back.UsersPage.domain.AuctionWishListDto">
         SELECT 
             auction_wishlists.user_id,
             auction_wishlists.item_id,
@@ -47,7 +47,7 @@
     </select>
 
 
-    <select id="checkMarketWishListRow" parameterType="String" resultType="com.autcion.auction_back.UsersPage.domain.MarketWishListDto">
+    <select id="checkMarketWishListRow" parameterType="Integer" resultType="com.autcion.auction_back.UsersPage.domain.MarketWishListDto">
         SELECT 
             market_wishlists.user_id,
             market_wishlists.item_id,
@@ -76,13 +76,13 @@
     <!-- deleteWishlistRow --> 
 
     <delete id="deleteAuctionWishlistRow">
-        DELETE FROM auction_wishlists WHERE user_id = #{user_id} AND wishlist_id = #{auction_id}
+        DELETE FROM auction_wishlists WHERE user_id = #{user_id} AND item_id = #{auction_id}
     </delete>
 
     <!-- deleteAuctionWishlistRow --> 
 
     <delete id="deleteMarketWishlistRow">
-        DELETE FROM market_wishlists WHERE user_id = #{user_id} AND wishlist_id = #{market_id}
+        DELETE FROM market_wishlists WHERE user_id = #{user_id} AND item_id = #{market_id}
     </delete>
     
     

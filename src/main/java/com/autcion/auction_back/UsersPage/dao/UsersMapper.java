@@ -13,13 +13,13 @@ import com.autcion.auction_back.UsersPage.domain.InquiryDto;
 @Mapper
 public interface UsersMapper {
 
-    public Integer loginRow(LoginDto loginDto);
+    public Integer loginRow(String loginId);
 
     public Integer registerRow(UserDataDto registerDto);
     
-    public ProfileDao profileRow(String loginId);
+    public ProfileDao profileRow(Integer userId);
 
-    public int updateProfileRow(UserDataDto registerDto);
+    public Integer updateProfileRow(UserDataDto registerDto);
 
     public String recoverIdRow(UserDataDto param);
 
@@ -29,11 +29,13 @@ public interface UsersMapper {
 
     public int deleteAccountRow(String user_id);
 
-    public List<MileageDto> checkMileageRow(String user_id);
+    public List<MileageDto> checkMileageRow(Integer user_id);
 
     public List<AuctionBidsDto> myBidsRow(String user_id);
 
-    public List<InquiryDto> inquiriesByStatusRow(String user_id, String status);
+    public List<InquiryDto> inquiriesByStatusRow(Integer user_id, String status);
 
-    public List<InquiryDto> inquiriesRow(String user_id);
+    public List<InquiryDto> inquiriesRow(Integer user_id);
+
+    public UserDataDto compareLoginInfoRow(Integer user_id);
 }

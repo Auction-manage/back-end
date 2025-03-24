@@ -12,15 +12,15 @@ import com.autcion.auction_back.UsersPage.domain.MarketWishListDto;
 @Mapper
 public interface SaleHistoryMapper {
 
-    public List<AuctionDataDto> AuctionDataRow(String user_id);
+    public List<AuctionDataDto> AuctionDataRow(Integer user_id);
 
-    public List<MarketDataDto> MarketDataRow(String user_id);
+    public List<MarketDataDto> MarketDataRow(Integer user_id);
 
-    public List<AuctionWishListDto> checkAuctionWishListRow(String user_id);
+    public List<AuctionWishListDto> checkAuctionWishListRow(Integer user_id);
 
-    public List<MarketWishListDto> checkMarketWishListRow(String user_id);
+    public List<MarketWishListDto> checkMarketWishListRow(Integer user_id);
 
-    public int deleteAuctionWishlistRow(String user_id, String auction_id);
+    public int deleteAuctionWishlistRow(Integer user_id, String auction_id);
 
-    public int deleteMarketWishlistRow(String user_id, String market_id);
+    public int deleteMarketWishlistRow(Integer user_id, String market_id);
 }
