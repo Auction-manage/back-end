@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.autcion.auction_back.EditPage.dao.DesignManageMapper">
+
+    <!-- updateTheme --> 
+
+    <update id="updateTheme"
+            parameterType="com.autcion.auction_back.EditPage.domain.ThemeDTO">
+        UPDATE theme
+        SET theme_name = #{theme_name},
+            theme_info = #{theme_info},
+            logoURL = #{logoURL}
+        WHERE theme_id = 0;
+    </update>
+
+
+    <!-- updateBanner --> 
+
+    <update id="updateBanner"
+            parameterType="com.autcion.auction_back.EditPage.domain.BannerDTO">
+        UPDATE banner
+        SET banner_title = #{banner_title},
+            banner_imageURL = #{banner_imageURL}
+        WHERE banner_id = 0;
+    </update>    
+</mapper>
