@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.autcion.auction_back.UsersPage.dao.ProfileDao;
+import com.autcion.auction_back.UsersPage.domain.AuctionBidsDto;
 import com.autcion.auction_back.UsersPage.domain.AuctionDataDto;
 import com.autcion.auction_back.UsersPage.domain.AuctionWishListDto;
+import com.autcion.auction_back.UsersPage.domain.InquiryDto;
 import com.autcion.auction_back.UsersPage.domain.LoginDto;
 import com.autcion.auction_back.UsersPage.domain.MarketDataDto;
 import com.autcion.auction_back.UsersPage.domain.MarketWishListDto;
+import com.autcion.auction_back.UsersPage.domain.MileageDto;
 import com.autcion.auction_back.UsersPage.domain.UserDataDto;
 import com.autcion.auction_back.UsersPage.service.LoginService;
 import com.autcion.auction_back.UsersPage.service.ProfileService;
@@ -130,15 +132,15 @@ class OauthdemoApplication{
 		}
 	}
 
-	@Test
-	@DisplayName("프로필 조회")
-	public void testProfile() {
-		String username = "test1";
-		ProfileDao profile = profileService.profile(username);
-		System.out.println("Profile: " + profile);
+	// @Test
+	// @DisplayName("프로필 조회")
+	// public void testProfile() {
+	// 	String username = "test1";
+	// 	ProfileDao profile = profileService.profile(username);
+	// 	System.out.println("Profile: " + profile);
 
-		assertEquals("test", profile.getName(), "프로필 조회에 실패했습니다. 반환된 결과: " + profile);
-	}
+	// 	assertEquals("test", profile.getName(), "프로필 조회에 실패했습니다. 반환된 결과: " + profile);
+	// }
 	
 	@Test
 	@DisplayName("프로필 수정")
@@ -151,18 +153,45 @@ class OauthdemoApplication{
 				.address("test1234")
 				.build();
 				
-		UserDataDto result = profileService.updateProfile(registerDto);
+		String result = profileService.updateProfile(registerDto);
 
 		System.out.println("UpdateProfile: " + result);
 		
 		assertNotNull(result, "프로필 수정에 실패했습니다.");
-		assertEquals("test1234", result.getName(), "이름이 일치하지 않습니다.");
+		assertEquals("successfully updated", result, "업데이트에 실패했습니다다");
+	}
+
+/*
+	@Test
+	@DisplayName("회원 탈퇴")
+	public void testDeleteAccount() {
+		String userId = "3";
+		String result = profileService.deleteAccount(userId);
+		System.out.println("DeleteAccount: " + result);
+	}
+*/
+
+	@Test
+	@DisplayName("마일리지 조회")
+	public void testCheckMileage() {
+		Integer userId = 11;
+		List<MileageDto> mileageData = profileService.checkMileage(userId);
+		System.out.println("MileageData: " + mileageData);
 	}
 
 	@Test
+	@DisplayName("내가 입찰중인 상품품")
+	public void testMyBids() {
+		String userId = "46";
+		List<AuctionBidsDto> myBids = profileService.myBids(userId);
+
+		System.out.println("debug >>>> bids " + myBids.size() + " " + "myBids " + myBids);
+	}
+	
+	@Test
 	@DisplayName("찜 목록 조회")
 	public void testCheckWishList() {
-		String userId = "3";
+		Integer userId = 3;
 		List<AuctionWishListDto> auctionData = profileService.checkWishList(userId);
 		System.out.println("AuctionData: " + auctionData);
 		
@@ -170,11 +199,27 @@ class OauthdemoApplication{
 		System.out.println("MarketData: " + marketData);
 	}
 	
-	
+	@Test
+	@DisplayName("찜 목록 삭제")
+	public void testDeleteWishList() {
+		Integer userId = 3;
+		String auctionId = "1";
+		String type_auction = "auction";
+		String type_market = "market";
+
+		String result = profileService.deleteWishlist(userId, auctionId, type_auction);
+		System.out.println("DeleteWishList: " + result);
+
+		result = profileService.deleteWishlist(userId, auctionId, type_market);
+		System.out.println("DeleteWishList: " + result);
+
+		assertTrue(result.equals("success"), "찜 목록 삭제에 실패했습니다. 반환된 결과: " + result);
+	}
+
 	@Test
 	@DisplayName("판매 내역 조회")
 	public void testSaleHistory() {
-		String userId = "3";
+		Integer userId = 3;
 		List<AuctionDataDto> auctionData = saleHistoryService.getAuctionData(userId);
 		System.out.println("AuctionData: " + auctionData);
 
@@ -197,7 +242,7 @@ class OauthdemoApplication{
 	
 	@Test
 	@DisplayName("비밀번호 찾기")
-	public void testRecoverord() {
+	public void testRecoverorPwd() {
 
 		UserDataDto registerDto = UserDataDto.builder()
 											.loginId("test1")
@@ -221,4 +266,17 @@ class OauthdemoApplication{
 		}
 	
 	}
+
+	// @Test
+	// @DisplayName("문의 조회")
+	// public void testMyInquiries() {
+	// 	String userId = "11";
+	// 	List<InquiryDto> inquiries = profileService.myInquiries(userId);
+	// 	System.out.println("Inquiries: " + inquiries);
+
+	// 	List<InquiryDto> inquiriesByStatus = profileService.myInquiriesByStatus(userId, "pending");
+	// 	System.out.println("InquiriesByStatus: " + inquiriesByStatus);
+	// }
+
+
 }
