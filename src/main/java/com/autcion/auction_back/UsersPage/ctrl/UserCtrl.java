@@ -242,7 +242,7 @@ public class UserCtrl {
                 
                 return result;
             }
-            
+    
     @GetMapping("/recover/password") // 비밀번호 찾기
     public String recoverPassword(@RequestParam String user_id, String name, String phone) {
         System.out.println("debug >>>> recoverPassword");
