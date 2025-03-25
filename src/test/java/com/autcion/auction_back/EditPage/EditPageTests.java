@@ -8,18 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.autcion.auction_back.EditPage.dao.EditMapper;
 import com.autcion.auction_back.EditPage.domain.BannerDTO;
 import com.autcion.auction_back.EditPage.domain.InquiriesDTO;
 import com.autcion.auction_back.EditPage.domain.NoticeDTO;
 import com.autcion.auction_back.EditPage.domain.ThemeDTO;
 import com.autcion.auction_back.EditPage.domain.TransactionInfoDTO;
+import com.autcion.auction_back.EditPage.service.HomeManageService;
 
 @SpringBootTest
 public class EditPageTests {
 
     @Autowired
-    private EditMapper editMapper;
+    private HomeManageService editMapper;
 
     @Test
     @DisplayName("001 : 문의사항 입력")
