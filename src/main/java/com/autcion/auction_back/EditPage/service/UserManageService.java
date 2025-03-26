@@ -95,35 +95,48 @@ public class UserManageService {
         return userManageMapper.getAllPoints();
     }
 
-    // 포인트 추가 (권한 체크 포함)
+    // 전체 회원 포인트 추가 (권한 체크 포함)
     public void insertMileage(int userId, MileageDTO params) {
         if (!adminAuthenticationService.checkAdmin(userId)) {
             throw new AccessDeniedException("Admin access required");
         }
-        userManageMapper.insertMileage(params);
+        
+        // 전체 회원 목록 조회
+        List<UserDTO> users = userManageMapper.getUserList();
+        
+        if (users == null || users.isEmpty()) {
+            throw new IllegalStateException("포인트를 추가할 회원이 없습니다");
+        }
+
+        // 각 회원에게 포인트 추가
+        for (UserDTO user : users) {
+            // 각 회원의 ID를 MileageDTO에 설정
+            params.setUser_id(user.getUser_id());
+            userManageMapper.insertMileage(params);
+        }
     }
 
     // 모든 회원에게 이메일 전송
-public void sendEmails(EmailDTO params) {
-    // 모든 회원 조회
-    List<UserDTO> users = userManageMapper.getUserList();
+    public void sendEmails(EmailDTO params) {
+        // 모든 회원 조회
+        List<UserDTO> users = userManageMapper.getUserList();
 
-    if (users == null || users.isEmpty()) {
-        throw new IllegalStateException("No users found to send emails to");
-    }
+        if (users == null || users.isEmpty()) {
+            throw new IllegalStateException("No users found to send emails to");
+        }
 
-    // 각 회원에게 이메일 전송
-    for (UserDTO user : users) {
-        String email = user.getEmail();
-        if (email != null && !email.isEmpty()) {
-            try {
-                sendEmailToUser(email, params.getTitle(), params.getContent());
-            } catch (MessagingException | MailException e) {
-                System.err.println("Failed to send email to " + email + ": " + e.getMessage());
+        // 각 회원에게 이메일 전송
+        for (UserDTO user : users) {
+            String email = user.getEmail();
+            if (email != null && !email.isEmpty()) {
+                try {
+                    sendEmailToUser(email, params.getTitle(), params.getContent());
+                } catch (MessagingException | MailException e) {
+                    System.err.println("Failed to send email to " + email + ": " + e.getMessage());
+                }
             }
         }
     }
-}
 
     // 단일 사용자에게 이메일 전송
     private void sendEmailToUser(String toEmail, String title, String content) throws MessagingException {

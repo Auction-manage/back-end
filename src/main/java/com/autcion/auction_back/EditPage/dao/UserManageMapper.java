@@ -12,7 +12,7 @@ import com.autcion.auction_back.MainPage.domain.MileageDTO;
 @Mapper
 public interface UserManageMapper {
     
-    public List<UserDTO> getUserList(); // List<Object> -> List<UserDTO>로 변경
+    public List<UserDTO> getUserList();
 
     public void updateUserList(UserDTO param);
 

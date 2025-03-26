@@ -3,4 +3,75 @@
 
 <mapper namespace="com.autcion.auction_back.EditPage.dao.UserManageMapper">
 
+    <!-- getUserList --> 
+
+    <select id="getUserList">
+    </select>
+
+    <!-- updateUserList --> 
+
+    <update id="updateUserList">
+    </update>
+
+    <!-- getRankList1 --> 
+
+    <select id="getRankList1"
+            resultType="com.autcion.auction_back.EditPage.domain.BuyerRankDTO">
+        SELECT *
+        FROM buyer_rank
+        ORDER BY ASC;
+    </select>
+
+    <!-- getRankList2 --> 
+
+    <select id="getRankList2"
+            resultType="com.autcion.auction_back.EditPage.domain.SellerRankDTO">
+            SELECT *
+            FROM seller_rank
+            ORDER BY ASC;
+    </select>
+
+    <!-- updateRankList1 --> 
+
+    <update id="updateRankList1"
+            parameterType="com.autcion.auction_back.EditPage.domain.BuyerRankDTO">
+        UPDATE buyer_rank
+        SET buyer_rank_name = #{buyer_rank_name},
+            buy_benefits = #{buy_benefits}
+        WHERE buyer_rank_id = #{buyer_rank_id};
+    </update>
+
+    <!-- updateRankList2 --> 
+
+    <update id="updateRankList2"
+            parameterType="com.autcion.auction_back.EditPage.domain.SellerRankDTO">
+        UPDATE seller_rank
+        SET seller_rank_name = #{seller_rank_name},
+            seller_benefits = #{seller_benefits}
+        WHERE seller_rank_id = #{seller_rank_id}
+    </update>
+
+    <!-- getAllPoints --> 
+
+    <select id="getAllPoints"
+            resultType="com.autcion.auction_back.MainPage.domain.MileageDTO">
+        SELECT *
+        FROM mileage
+        ORDER BY DESC;
+    </select>
+
+    <!-- insertMileage --> 
+
+    <insert id="insertMileage"
+            parameterType="com.autcion.auction_back.MainPage.domain.MileageDTO">
+        INSERT INTO mileage (
+            user_id,
+            amount,
+            created_at
+        ) VALUES (
+            #{user_id},
+            #{amount},
+            now()
+        );
+    </insert>                            
 </mapper>

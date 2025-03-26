@@ -3,4 +3,54 @@
 
 <mapper namespace="com.autcion.auction_back.EditPage.dao.HomeManageMapper">
 
+    <!-- getTradeCount --> 
+
+    <select id="getTradeCount">
+    </select>
+
+    <!-- getDepositWaitCount --> 
+
+    <select id="getDepositWaitCount">
+    </select>
+
+    <!-- getDepositCount --> 
+
+    <select id="getDepositCount">
+    </select>
+
+    <!-- getDeliveryWaitCount --> 
+
+    <select id="getDeliveryWaitCount">
+    </select>
+
+    <!-- getDeliveringCount --> 
+
+    <select id="getDeliveringCount">
+    </select>
+
+    <!-- getDeliveryEndCount --> 
+
+    <select id="getDeliveryEndCount">
+    </select>
+
+    <!-- getCancelCount --> 
+
+    <select id="getCancelCount">
+    </select>
+
+    <!-- getRefundCount --> 
+
+    <select id="getRefundCount">
+    </select>
+
+    <!-- getReturnCount --> 
+
+    <select id="getReturnCount">
+    </select>
+
+    <!-- getRecentTrade --> 
+
+    <select id="getRecentTrade">
+    </select>
+    
 </mapper>

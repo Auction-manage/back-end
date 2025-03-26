@@ -3,4 +3,49 @@
 
 <mapper namespace="com.autcion.auction_back.EditPage.dao.ItemManageMapper">
 
+    <!-- getAllTrade --> 
+
+    <select id="getAllTrade">
+    </select>
+
+    <!-- getwaitTrade --> 
+
+    <select id="getwaitTrade">
+    </select>
+
+    <!-- getDepositTrade --> 
+
+    <select id="getDepositTrade">
+    </select>
+
+    <!-- getDeliveryWaitTrade --> 
+
+    <select id="getDeliveryWaitTrade">
+    </select>
+
+    <!-- getDeliveringTrade --> 
+
+    <select id="getDeliveringTrade">
+    </select>
+
+    <!-- getDeliveryEndTrade --> 
+
+    <select id="getDeliveryEndTrade">
+    </select>
+
+    <!-- getcancelTrade --> 
+
+    <select id="getcancelTrade">
+    </select>
+
+    <!-- getrefundTrade --> 
+
+    <select id="getrefundTrade">
+    </select>
+
+    <!-- getreturnTrade --> 
+
+    <select id="getreturnTrade">
+    </select>
+                                    
 </mapper>

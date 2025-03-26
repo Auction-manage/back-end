@@ -3,4 +3,92 @@
 
 <mapper namespace="com.autcion.auction_back.EditPage.dao.SupportManageMapper">
 
+    <!-- getInquries --> 
+
+    <select id="getInquries"
+            resultType="com.autcion.auction_back.EditPage.domain.InquiriesDTO">
+        SELECT *
+        FROM inquiries
+        ORDER BY DESC;
+    </select>
+
+    <!-- updateInquries --> 
+
+    <update id="updateInquries"
+            parameterType="com.autcion.auction_back.EditPage.domain.InquiriesDTO">
+        UPDATE inquiries
+        SET response = #{response},
+            response_status = 'answered'
+        WHERE inquiry_id = #{inquiry_id};
+    </update>
+
+    <!-- insertNotice --> 
+
+    <insert id="insertNotice"
+            parameterType="com.autcion.auction_back.EditPage.domain.NoticeDTO">
+        INSERT INTO notice (
+            notice_title,
+            notice_info,
+            created_at
+        ) VALUES (
+            #{notice_title},
+            #{notice_info},
+            now()
+        );
+
+    </insert>
+
+    <!-- updateNotice --> 
+
+    <update id="updateNotice"
+            parameterType="com.autcion.auction_back.EditPage.domain.NoticeDTO">
+        UPDATE notice
+        SET notice_title = #{notice_title},
+            notice_info = #{notice_info},
+            updated_at = now()
+        WHERE notice_id = #{notice_id};
+    </update>
+
+    <!-- deleteNotice --> 
+
+    <delete id="deleteNotice"
+            parameterType="com.autcion.auction_back.EditPage.domain.NoticeDTO">
+        DELETE FROM notice
+        WHERE notice_id = #{notice_id};
+    </delete>
+
+    <!-- insertFaq --> 
+
+    <insert id="insertFaq"
+            parameterType="com.autcion.auction_back.EditPage.domain.FaqDTO">
+        INSERT INTO faq (
+            faq_title,
+            faq_info,
+            created_at
+        ) VALUES (
+            #{faq_title},
+            #{faq_info},
+            now()
+        );
+    </insert>
+
+    <!-- updateFaq --> 
+
+    <update id="updateFaq"
+            parameterType="com.autcion.auction_back.EditPage.domain.FaqDTO">
+        UPDATE faq
+        SET faq_title = #{faq_title},
+            faq_info = #{faq_info},
+            updated_at = now()
+        WHERE faq_id = #{faq_id};
+    </update>
+
+    <!-- deleteFaq --> 
+
+    <delete id="deleteFaq"
+            parameterType="com.autcion.auction_back.EditPage.domain.FaqDTO">
+        DELETE FROM faq
+        WHERE faq_id = #{faq_id};
+    </delete>
+
 </mapper>
