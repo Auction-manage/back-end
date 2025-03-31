@@ -1,0 +1,15 @@
+package com.autcion.auction_back.UsersPage.domain;
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class AuctionBidsDto {
+    // private int bid_id;
+    private int itemId;
+    private String bidderId;
+    private String bidderNickname;
+    private int bidPrice;
+    private String bidTime;
+}

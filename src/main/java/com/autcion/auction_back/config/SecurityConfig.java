@@ -3,13 +3,6 @@ package com.autcion.auction_back.config;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.autcion.auction_back.UsersPage.service.UserService;
-import com.autcion.auction_back.UsersPage.util.JwtAuthenticationFilter;
-import com.autcion.auction_back.UsersPage.util.JwtUtil;
-import com.autcion.auction_back.config.handler.FailureHandler;
-import com.autcion.auction_back.config.handler.SuccessHandler;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,6 +12,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.autcion.auction_back.UsersPage.service.UserService;
+import com.autcion.auction_back.UsersPage.util.JwtAuthenticationFilter;
+import com.autcion.auction_back.config.handler.FailureHandler;
+import com.autcion.auction_back.config.handler.SuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -50,7 +48,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                     // 인증없이 접근 가능한 경로 설정
-                    .requestMatchers("/", "/login/**", "loginProc", "/register", "/recover/**", "/auction/**", "/virtualMarkets/**", "/marketItems/**").permitAll()
+                    .requestMatchers("/", "/login/**", "loginProc", "/register", "/recover/**").permitAll()
                     // 그 외 모든 요청은 인증 필요
                     .anyRequest().authenticated())
                 .formLogin(form -> form
