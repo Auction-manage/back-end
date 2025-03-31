@@ -2,8 +2,11 @@ package com.autcion.auction_back.virtualmarketpage.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.autcion.auction_back.virtualmarketpage.DTO.VirtualMarketDTO;
 
+@Service
 public class VirtualMarketService {
 
     public VirtualMarketDTO createVirtualMarket(VirtualMarketDTO marketDTO) {

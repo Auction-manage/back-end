@@ -10,22 +10,22 @@ import com.autcion.auction_back.common.ConsignmentDTO;
 import java.util.List;
 
 @Mapper
-public interface AuctionItemMapper {
+public interface AuctionMapper {
 
     // 1) 물품(경매) 구매 가능 리스트 조회
-    List<AuctionItemDTO> getActiveAuctionItems();
+    public List<AuctionItemDTO> getAuctionList();
 
     // 2) 물품(경매) 상세 정보 조회
-    AuctionItemDTO getAuctionItemDetail(int itemId);
+    public AuctionItemDTO getAuctionItemDetail(int itemId);
 
     // 3) 물품(경매) 등록
-    int insertAuctionItem(AuctionItemDTO item);
+    public int newAuctionItem(AuctionItemDTO item);
 
     // 4) 물품(경매) 상세 정보 수정
-    int updateAuctionItem(AuctionItemDTO item);
+    public int updateAuctionItem(AuctionItemDTO itemDTO);
 
     // 5) 물품(경매) 삭제
-    int deleteAuctionItem(int itemId);
+    public int deleteAuctionItem(int user_id, int itemId);
 
     // 6) 물품(경매) 입찰
     int placeBid(BidsDTO bid);

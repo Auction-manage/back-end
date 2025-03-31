@@ -2,17 +2,7 @@ package com.autcion.auction_back.config;
 
 import java.util.Arrays;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.autcion.auction_back.UsersPage.service.UserService;
 import com.autcion.auction_back.UsersPage.util.JwtAuthenticationFilter;
@@ -20,18 +10,36 @@ import com.autcion.auction_back.UsersPage.util.JwtUtil;
 import com.autcion.auction_back.config.handler.FailureHandler;
 import com.autcion.auction_back.config.handler.SuccessHandler;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
-@RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
-    // 필요한 컴포넌트들 주입
-    private final SuccessHandler successHandler;
+
     private final FailureHandler failureHandler;
-    private final UserService userService;
-    private final JwtUtil jwtUtil;
+    private final SuccessHandler successHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final UserService userService;
+
+    @Autowired  // 생성자 주입 추가
+    public SecurityConfig(
+            FailureHandler failureHandler,
+            SuccessHandler successHandler,
+            JwtAuthenticationFilter jwtAuthenticationFilter,
+            UserService userService) {
+        this.failureHandler = failureHandler;
+        this.successHandler = successHandler;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.userService = userService;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -42,9 +50,16 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                     // 인증없이 접근 가능한 경로 설정
-                    .requestMatchers("/", "/login/**", "/register", "/recover/**").permitAll()
+                    .requestMatchers("/", "/login/**", "loginProc", "/register", "/recover/**", "/auction/**", "/virtualMarkets/**", "/marketItems/**").permitAll()
                     // 그 외 모든 요청은 인증 필요
                     .anyRequest().authenticated())
+                .formLogin(form -> form
+                    .loginPage("/login")
+                    // .loginProcessingUrl("/login")
+                    .defaultSuccessUrl("/profile")
+                    // .failureUrl("/login")
+                    .permitAll()
+                )
                 // JWT 인증 필터 추가
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 // OAuth2 로그인 설정
@@ -53,7 +68,8 @@ public class SecurityConfig {
                     .failureHandler(failureHandler)
                     .userInfoEndpoint(user -> user
                         .userService(userService)
-                    ))
+                    )
+                    .disable())
                 .build();
     }
 

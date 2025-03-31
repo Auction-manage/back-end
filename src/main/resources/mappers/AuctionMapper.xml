@@ -3,32 +3,50 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.autcion.auction_back.auctionpage.DAO.AuctionItemMapper">
+<mapper namespace="com.autcion.auction_back.auctionpage.DAO.AuctionMapper">
 
 
     <!-- 1) 물품(경매) 구매 가능 리스트 조회 -->
-    <select id="getActiveAuctionItems" resultType="com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO">
-        SELECT item_id, seller_id, seller_nickname, title, description,
-               start_price, current_price, status, created_at, updated_at, end_time
+    <select id="getAuctionList" resultType="com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO">
+        <!-- SELECT item_id, seller_id, seller_nickname, title, description,
+                start_price, current_price, status, created_at, updated_at, end_time -->
+        SELECT *
         FROM auction_items
-        WHERE status = 'active'
+        <!-- WHERE status = 'active' -->
     </select>
 
     <!-- 2) 물품(경매) 상세 정보 조회 -->
     <select id="getAuctionItemDetail" parameterType="int" resultType="com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO">
         SELECT item_id, seller_id, seller_nickname, title, description,
-               start_price, current_price, status, created_at, updated_at, end_time
+            start_price, current_price, status, created_at, updated_at, end_time
         FROM auction_items
         WHERE item_id = #{itemId}
     </select>
 
     <!-- 3) 물품(경매) 등록 -->
-    <insert id="insertAuctionItem" parameterType="com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO">
+    <insert id="newAuctionItem" parameterType="com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO">
         INSERT INTO auction_items
-        (seller_id, seller_nickname, title, description, start_price, current_price, status, created_at, end_time)
+            (
+                seller_id,
+                seller_nickname,
+                title,
+                description,
+                start_price,
+                current_price,
+                created_at,
+                end_time
+            )
         VALUES
-        (#{seller_id}, #{seller_nickname}, #{title}, #{description},
-         #{start_price}, #{current_price}, #{status}, NOW(), #{end_time})
+            (
+                #{seller_id},
+                #{seller_nickname},
+                #{title},
+                #{description},
+                #{start_price},
+                #{current_price},
+                NOW(),
+                #{end_time}
+            )
     </insert>
 
     <!-- 4) 물품(경매) 상세 정보 수정 -->
@@ -36,7 +54,7 @@
         UPDATE auction_items
         SET title = #{title},
             description = #{description},
-            current_price = #{current_price},
+            start_price = #{start_price},
             updated_at = NOW()
         WHERE item_id = #{item_id}
     </update>
@@ -44,7 +62,7 @@
     <!-- 5) 물품(경매) 삭제 -->
     <delete id="deleteAuctionItem" parameterType="int">
         DELETE FROM auction_items
-        WHERE item_id = #{itemId}
+        WHERE seller_id = #{user_id} AND item_id = #{itemId}
     </delete>
 
     <!-- 6) 물품(경매) 입찰 -->

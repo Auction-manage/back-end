@@ -12,7 +12,7 @@ import java.util.List;
 public interface MarketItemMapper {
 
     // 1) 물품(정찰) 구매 가능 리스트 조회
-    List<MarketItemDTO> getAvailableItems();
+    public List<MarketItemDTO> getAvailableItems();
 
     // 2) 물품(정찰) 상세 정보 조회
     MarketItemDTO getMarketItemDetail(int itemId);

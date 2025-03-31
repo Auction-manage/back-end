@@ -1,15 +1,23 @@
 package com.autcion.auction_back.marketpage.ctrl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.autcion.auction_back.marketpage.DTO.MarketImageDTO;
 import com.autcion.auction_back.marketpage.DTO.MarketItemDTO;
 import com.autcion.auction_back.marketpage.service.MarketItemService;
-
-import java.util.List;
-import org.springframework.http.HttpHeaders;
 
 
 @RestController
@@ -22,6 +30,7 @@ public class MarketItemController {
     // 구매 가능 리스트 조회
     @GetMapping
     public ResponseEntity<List<MarketItemDTO>> getTradeCount(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
+        
         List<MarketItemDTO> items = marketItemService.getAvailableItems();
         return ResponseEntity.ok(items);
     }
@@ -46,7 +55,7 @@ public class MarketItemController {
     // 정찰 물품 수정
     @PutMapping("/{itemId}/edit")
     public ResponseEntity<MarketItemDTO> updateMarketItem(@PathVariable int itemId,
-                                                          @RequestBody MarketItemDTO itemDTO) {
+                                                        @RequestBody MarketItemDTO itemDTO) {
         itemDTO.setItem_id(itemId);
         MarketItemDTO updatedItem = marketItemService.updateMarketItem(itemDTO);
         return ResponseEntity.ok(updatedItem);
@@ -57,7 +66,8 @@ public class MarketItemController {
     public ResponseEntity<Void> deleteMarketItem(@PathVariable int itemId) {
         marketItemService.deleteMarketItem(itemId);
         return ResponseEntity.noContent().build();
-    }
+        
+        }
 
     // 정찰 물품 구매 (status 변경)
     @PostMapping("/{itemId}/purchase")
@@ -70,30 +80,30 @@ public class MarketItemController {
     // 이미지 저장
     @PostMapping("/{itemId}/images")
     public ResponseEntity<Void> insertMarketImage(@PathVariable int itemId,
-                                                  @RequestBody MarketImageDTO imageDTO) {
+                                                @RequestBody MarketImageDTO imageDTO) {
         imageDTO.setItem_id(itemId);
         marketItemService.insertMarketImage(imageDTO);
         return ResponseEntity.ok().build();
     }
 
-    // 이미지 조회
-    @GetMapping("/new")
+    // 이미지 조회 - URL 수정
+    @GetMapping("/{itemId}/images")
     public ResponseEntity<List<MarketImageDTO>> getMarketImages(@PathVariable int itemId) {
         List<MarketImageDTO> images = marketItemService.getMarketImagesByItemId(itemId);
         return ResponseEntity.ok(images);
     }
 
-    // 이미지 수정
-    @PutMapping("/{itemId}/edit")
+    // 이미지 수정 - URL 수정
+    @PutMapping("/{itemId}/edit/image")
     public ResponseEntity<Void> updateMarketImage(@PathVariable long imageId,
-                                                  @RequestBody MarketImageDTO imageDTO) {
+                                                @RequestBody MarketImageDTO imageDTO) {
         imageDTO.setImage_id(imageId);
         marketItemService.updateMarketImage(imageDTO);
         return ResponseEntity.ok().build();
     }
 
-    // 이미지 삭제
-    @DeleteMapping("/{itemId}")
+    // 이미지 삭제 - URL 수정
+    @DeleteMapping("/{itemId}/image")
     public ResponseEntity<Void> deleteMarketImage(@PathVariable long imageId) {
         marketItemService.deleteMarketImage(imageId);
         return ResponseEntity.noContent().build();

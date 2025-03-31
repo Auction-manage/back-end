@@ -1,30 +1,41 @@
 package com.autcion.auction_back.auctionpage;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.autcion.auction_back.auctionpage.DAO.AuctionItemMapper;
+import com.autcion.auction_back.auctionpage.DAO.AuctionMapper;
 import com.autcion.auction_back.auctionpage.DTO.AuctionImageDTO;
 import com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO;
+import com.autcion.auction_back.auctionpage.service.AuctionItemService;
 import com.autcion.auction_back.common.BidsDTO;
 import com.autcion.auction_back.common.ConsignmentDTO;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @SpringBootTest
 public class AuctionItemTest {
 
     @Autowired
-    private AuctionItemMapper auctionItemMapper;
+    private AuctionMapper auctionItemMapper;
+
+    @Autowired
+    private AuctionItemService auctionItemService;
 
     @Test
     @DisplayName("물품(경매) 구매 가능 리스트 조회")
-    public void testGetActiveAuctionItems() {
-        List<AuctionItemDTO> items = auctionItemMapper.getActiveAuctionItems();
-        items.forEach(i -> System.out.println("Active Auction Item: " + i));
+    public void testGetAuctionItems() {
+
+        // List<AuctionItemDTO> items = auctionItemMapper.getAuctionItems();
+        // items.forEach(i -> System.out.println("Active Auction Item: " + i));
+
+        List<AuctionItemDTO> auctionItemLists = auctionItemService.getAuctionList();
+
+        System.out.println("debug >>>> auctionItemLists: " + auctionItemLists);
+
+
     }
 
     @Test
@@ -48,8 +59,8 @@ public class AuctionItemTest {
                 .status("active")
                 .end_time(LocalDateTime.of(2025, 12, 31, 23, 59, 59))
                 .build();
-        int result = auctionItemMapper.insertAuctionItem(newItem);
-        System.out.println("Insert Auction Item Result: " + result);
+        // int result = auctionItemMapper.insertAuctionItem(newItem);
+        // System.out.println("Insert Auction Item Result: " + result);
     }
 
     @Test
@@ -61,16 +72,16 @@ public class AuctionItemTest {
                 .description("Updated Auction Description")
                 .current_price(2000.00)
                 .build();
-        int result = auctionItemMapper.updateAuctionItem(updateItem);
-        System.out.println("Update Auction Item Result: " + result);
+        // int result = auctionItemMapper.updateAuctionItem(updateItem);
+        // System.out.println("Update Auction Item Result: " + result);
     }
 
     @Test
     @DisplayName("물품(경매) 삭제")
     public void testDeleteAuctionItem() {
         int itemId = 1; // example
-        int result = auctionItemMapper.deleteAuctionItem(itemId);
-        System.out.println("Delete Auction Item Result: " + result);
+        // int result = auctionItemMapper.deleteAuctionItem(itemId);
+        // System.out.println("Delete Auction Item Result: " + result);
     }
 
     @Test

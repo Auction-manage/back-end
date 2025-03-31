@@ -2,9 +2,12 @@ package com.autcion.auction_back.marketpage.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.autcion.auction_back.marketpage.DTO.MarketImageDTO;
 import com.autcion.auction_back.marketpage.DTO.MarketItemDTO;
 
+@Service
 public class MarketItemService {
 
     public List<MarketItemDTO> getAvailableItems() {
