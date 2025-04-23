@@ -27,7 +27,7 @@ public class VirtualMarketTest {
                 .store_type(1)
                 .build();
 
-        int insertResult = virtualMarketMapper.insertVirtualMarket(newMarket);
+        int insertResult = virtualMarketMapper.createVirtualMarket(newMarket);
         System.out.println("가상 마켓 생성 결과: " + insertResult);
 
         // 새로 생성된 market_id 저장
@@ -38,14 +38,14 @@ public class VirtualMarketTest {
     @Test
     @DisplayName("가상 마켓 조회")
     public void testGetVirtualMarket() {
-        VirtualMarketDTO market = virtualMarketMapper.getVirtualMarketById(createdMarketId);
+        VirtualMarketDTO market = virtualMarketMapper.getVirtualMarket(createdMarketId);
         System.out.println("가상 마켓 조회 결과: " + market);
     }
 
     @Test
     @DisplayName("가상 마켓 수정")
     public void testUpdateVirtualMarket() {
-        VirtualMarketDTO market = virtualMarketMapper.getVirtualMarketById(createdMarketId);
+        VirtualMarketDTO market = virtualMarketMapper.getVirtualMarket(createdMarketId);
         if (market == null) {
             System.out.println("수정할 가상 마켓이 존재하지 않습니다.");
             return;
@@ -58,7 +58,7 @@ public class VirtualMarketTest {
         int updateResult = virtualMarketMapper.updateVirtualMarket(market);
         System.out.println("가상 마켓 수정 결과: " + updateResult);
 
-        VirtualMarketDTO updated = virtualMarketMapper.getVirtualMarketById(createdMarketId);
+        VirtualMarketDTO updated = virtualMarketMapper.getVirtualMarket(createdMarketId);
         System.out.println("수정된 가상 마켓: " + updated);
     }
 
@@ -68,7 +68,7 @@ public class VirtualMarketTest {
         int deleteResult = virtualMarketMapper.deleteVirtualMarket(createdMarketId);
         System.out.println("가상 마켓 삭제 결과: " + deleteResult);
 
-        VirtualMarketDTO afterDelete = virtualMarketMapper.getVirtualMarketById(createdMarketId);
+        VirtualMarketDTO afterDelete = virtualMarketMapper.getVirtualMarket(createdMarketId);
         System.out.println("삭제 후 조회(null 예상): " + afterDelete);
     }
 }

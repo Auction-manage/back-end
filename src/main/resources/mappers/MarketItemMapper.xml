@@ -6,23 +6,25 @@
 <mapper namespace="com.autcion.auction_back.marketpage.DAO.MarketItemMapper">
 
     <!-- 1) 물품(정찰) 구매 가능 리스트 조회 -->
-    <select id="getAvailableItems" resultType="com.autcion.auction_back.marketpage.DTO.MarketItemDTO">
-        SELECT item_id, title, description, price, status
+    <select id="marketItemList" resultType="com.autcion.auction_back.marketpage.DTO.MarketItemDTO">
+        SELECT item_id, title, description, price, status, market_id
         FROM market_items
         WHERE status = 'available'
+        AND market_id = #{marketId}
     </select>
 
     <!-- 2) 물품(정찰) 상세 정보 조회 -->
     <select id="getMarketItemDetail" parameterType="int" resultType="com.autcion.auction_back.marketpage.DTO.MarketItemDTO">
-        SELECT item_id, title, description, price, status
+        <!-- SELECT item_id, title, description, price, status -->
+        SELECT *
         FROM market_items
         WHERE item_id = #{itemId}
     </select>
 
     <!-- 3) 물품(정찰) 등록 -->
-    <insert id="insertMarketItem" parameterType="com.autcion.auction_back.marketpage.DTO.MarketItemDTO">
-        INSERT INTO market_items (title, description, price, status)
-        VALUES (#{title}, #{description}, #{price}, #{status})
+    <insert id="createMarketItem" parameterType="com.autcion.auction_back.marketpage.DTO.MarketItemDTO">
+        INSERT INTO market_items (title, description, price, status, market_id)
+        VALUES (#{title}, #{description}, #{price}, #{status}, #{market_id})
     </insert>
 
     <!-- 4) 물품(정찰) 상세 정보 수정 -->

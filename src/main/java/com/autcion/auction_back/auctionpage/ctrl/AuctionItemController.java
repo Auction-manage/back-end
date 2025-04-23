@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.autcion.auction_back.auctionpage.DTO.AuctionImageDTO;
@@ -64,6 +65,14 @@ public class AuctionItemController {
     @PostMapping("/new/item")
     public String newAuctionItem(@RequestBody AuctionItemDTO itemDTO) {
 
+        Map<String,Object> userInfo = getUserInfo();
+
+        int userId = (int) userInfo.get("userId");
+        String nickname = (String) userInfo.get("nickname");
+        
+        itemDTO.setSeller_id(userId);
+        itemDTO.setSeller_nickname(nickname);
+
         System.out.println("debug >>>> updateAuctionItem itemId: " + itemDTO);
 
         String result = auctionItemService.newAuctionItem(itemDTO);
@@ -94,52 +103,53 @@ public class AuctionItemController {
     @DeleteMapping("/remove/{itemId}")
     public ResponseEntity<?> deleteAuctionItem(@PathVariable("itemId") int itemId) {
         try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Map<String,Object> userInfo = getUserInfo();
             
-            if (auth == null || auth.getPrincipal().equals("anonymousUser")) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", "로그인이 필요합니다."));
-            }
+            int user_id = (int) userInfo.get("userId");
 
-            Map<String, Object> userInfo = (Map<String, Object>) auth.getPrincipal();
-            Integer userId = (Integer) userInfo.get("userId");
-
-            System.out.println("debug >>>> userId " + userId);
-
-            System.out.println("debug >>>> itemId " + itemId);
-
-            String result = auctionItemService.deleteAuctionItem(userId, itemId);
+            String result = auctionItemService.deleteAuctionItem(user_id, itemId);
 
             if ("Success".equals(result)) {
-                return ResponseEntity.ok()
-                    .body(Map.of("message", "삭제가 완료되었습니다."));
+                return ResponseEntity.ok(result);
             } else {
-                return ResponseEntity.badRequest()
-                    .body(Map.of("message", "삭제에 실패했습니다."));
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("삭제 권한이 없습니다.");
             }
-        } catch (ClassCastException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of("message", "인증 정보가 올바르지 않습니다."));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                .body(Map.of("message", "서버 오류가 발생했습니다."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body("삭제 중 오류가 발생했습니다: " + e.getMessage());
         }
     }
 
     // 경매 물품 입찰
     @PostMapping("/bid/{itemId}")
-    public ResponseEntity<Void> placeBid(
+    public ResponseEntity<String> placeBid(
             @PathVariable("itemId") int itemId,
-            @RequestBody BidsDTO bidDTO) {
+            @RequestParam("bid_price") int bid_price) {
 
-        bidDTO.setItem_id(itemId);
+        Map<String,Object> userInfo = getUserInfo();
 
-        auctionItemService.placeBid(bidDTO);
+        int userId = (int) userInfo.get("userId");
+        String nickname = (String) userInfo.get("nickname");
 
-        return ResponseEntity.ok().build();
+        BidsDTO bidDto = new BidsDTO();
+        
+        bidDto.setItem_id(itemId);
+        bidDto.setBidder_id(userId);
+        bidDto.setBidder_nickname(nickname);
+        bidDto.setBid_price(bid_price);
+
+        System.out.println(bidDto);
+
+        String result = auctionItemService.placeBid(bidDto);
+
+        if ("Success".equals(result)) {
+            return ResponseEntity.ok().body("입찰에 성공했습니다.");
+        } else {
+            return ResponseEntity.badRequest().body("입찰에 실패했습니다.");
+        }
     }
 
-    // 경매 물품 구매 (상태 변경)
+    // 경매 물품 구매 (상태 변경) 낙찰찰
     @PostMapping("/purchase/{itemId}")
     public ResponseEntity<Void> purchaseAuctionItem(@PathVariable("itemId") int itemId) {
 

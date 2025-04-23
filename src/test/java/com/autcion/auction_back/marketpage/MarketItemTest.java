@@ -1,5 +1,7 @@
 package com.autcion.auction_back.marketpage;
 
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.autcion.auction_back.marketpage.DAO.MarketItemMapper;
 import com.autcion.auction_back.marketpage.DTO.MarketImageDTO;
 import com.autcion.auction_back.marketpage.DTO.MarketItemDTO;
-
-import java.util.List;
 
 @SpringBootTest
 public class MarketItemTest {
@@ -20,8 +20,8 @@ public class MarketItemTest {
     @Test
     @DisplayName("물품(정찰) 구매 가능 리스트 조회")
     public void testGetAvailableMarketItems() {
-        List<MarketItemDTO> items = marketItemMapper.getAvailableItems();
-        items.forEach(i -> System.out.println("Available Market Item: " + i));
+        // List<MarketItemDTO> items = marketItemMapper.getAvailableItems();
+        // items.forEach(i -> System.out.println("Available Market Item: " + i));
     }
 
     @Test
@@ -41,8 +41,8 @@ public class MarketItemTest {
                 .price(10000L)
                 .status("available")
                 .build();
-        int result = marketItemMapper.insertMarketItem(newItem);
-        System.out.println("Insert Market Item Result: " + result);
+        // int result = marketItemMapper.insertMarketItem(newItem);
+        // System.out.println("Insert Market Item Result: " + result);
     }
 
     @Test

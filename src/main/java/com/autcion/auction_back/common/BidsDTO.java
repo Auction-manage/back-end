@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class BidsDTO {
-    private int bid_id;
     private int item_id;
     private int bidder_id;
     private String bidder_nickname;

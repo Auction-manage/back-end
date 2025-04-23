@@ -11,12 +11,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class VirtualMarketDTO {
-    private int market_id;
-    private int seller_id;
-    private String seller_nickname;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
-    private int item_count;
-    private double rating;
-    private int store_type;
+    public int market_id;
+    public int seller_id;
+    public String seller_nickname;
+    public LocalDateTime created_at;
+    public LocalDateTime updated_at;
+    public int item_count;
+    public double rating;
+    public int store_type;
+    public String title;
+    public String description;
 }

@@ -60,15 +60,16 @@
     </update>
 
     <!-- 5) 물품(경매) 삭제 -->
-    <delete id="deleteAuctionItem" parameterType="int">
+    <delete id="deleteAuctionItem">
         DELETE FROM auction_items
-        WHERE seller_id = #{user_id} AND item_id = #{itemId}
+        WHERE seller_id = #{userId} AND item_id = #{itemId}
     </delete>
 
     <!-- 6) 물품(경매) 입찰 -->
     <insert id="placeBid" parameterType="com.autcion.auction_back.common.BidsDTO">
         INSERT INTO bids (item_id, bidder_id, bidder_nickname, bid_price, bid_time)
         VALUES (#{item_id}, #{bidder_id}, #{bidder_nickname}, #{bid_price}, NOW())
+        <!-- IF (SELECT current_price FROM auction_items WHERE item_id = #{item_id}) < #{bid_price} -->
     </insert>
 
     <!-- 7) 물품(경매) 구매 -->

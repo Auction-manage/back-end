@@ -80,6 +80,8 @@ public class AuctionItemService {
 
         int response = auctionMapper.deleteAuctionItem(user_id, itemId);
 
+        System.out.println("debug >>>> deleteAuctionItem response: " + response);
+
         if (response > 0) {
             return "Success";
         } else {
@@ -88,7 +90,20 @@ public class AuctionItemService {
 
     }
 
-    public void placeBid(BidsDTO bidDTO) {
+    public String placeBid(BidsDTO bidDTO) {
+
+        System.out.println("debug >>>> placeBid bidDTO: " + bidDTO);
+
+        int response = auctionMapper.placeBid(bidDTO);
+
+        if (response > 0) {
+            System.out.println("debug >>>> placeBid success");
+            return "Success";
+        } else {
+            System.out.println("debug >>>> placeBid fail");
+            return "Fail";
+        }
+
         // TODO: 구현
     }
 

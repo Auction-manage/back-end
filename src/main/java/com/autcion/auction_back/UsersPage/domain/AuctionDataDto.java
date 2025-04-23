@@ -1,10 +1,14 @@
 package com.autcion.auction_back.UsersPage.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AuctionDataDto {
     private String item_id;
     private String seller_id;

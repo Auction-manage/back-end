@@ -1,0 +1,115 @@
+URI
+
+AuctionItemController (/auction)
+
+GET     localhost:8087/auction/list
+GET     localhost:8087/auction/detail/{itemId}
+POST    localhost:8087/auction/new/item
+PUT     localhost:8087/auction/edit/{itemId}
+DELETE  localhost:8087/auction/remove/{itemId}
+POST    localhost:8087/auction/bid/{itemId}
+POST    localhost:8087/auction/purchase/{itemId}
+POST    localhost:8087/auction/new/consignment
+PUT     localhost:8087/auction/consignment/purchase
+POST    localhost:8087/auction/images/{itemId}
+GET     localhost:8087/auction/images/{itemId}
+PUT     localhost:8087/auction/images/{imageId}
+DELETE  localhost:8087/auction/images/{imageId}
+
+HomeManageController (/manage/home)
+
+GET     localhost:8087/manage/home/tradecount
+GET     localhost:8087/manage/home/DepositWaitcount
+GET     localhost:8087/manage/home/Depositcount
+GET     localhost:8087/manage/home/DeliverytWaitcount
+GET     localhost:8087/manage/home/Deliveringcount
+GET     localhost:8087/manage/home/DeliveryEndcount
+GET     localhost:8087/manage/home/Cancelcount
+GET     localhost:8087/manage/home/Refundcount
+GET     localhost:8087/manage/home/Returncount
+GET     localhost:8087/manage/home/recentTrade
+
+ItemManageController (/manage/item)
+
+GET     localhost:8087/manage/item/AllTrade
+GET     localhost:8087/manage/item/waitTrade
+GET     localhost:8087/manage/item/DepositTrade
+GET     localhost:8087/manage/item/DeliveryWaitTrade
+GET     localhost:8087/manage/item/DeliveringTrade
+GET     localhost:8087/manage/item/DeliveryEndTrade
+GET     localhost:8087/manage/item/cancelTrade
+GET     localhost:8087/manage/item/refundTrade
+GET     localhost:8087/manage/item/returnTrade
+
+UserManageController (/manage/user)
+
+GET     localhost:8087/manage/user/userList
+PATCH   localhost:8087/manage/user/userList/update
+GET     localhost:8087/manage/user/rankList1
+GET     localhost:8087/manage/user/rankList2
+PATCH   localhost:8087/manage/user/rankList1/update
+PATCH   localhost:8087/manage/user/rankList2/update
+POST    localhost:8087/manage/user/send-emails
+GET     localhost:8087/manage/user/Allpoints
+POST    localhost:8087/manage/user/insertMileage
+
+(Commented out) POST localhost:8087/manage/user/Monthstatistics
+(Commented out) POST localhost:8087/manage/user/Daystatistics
+
+DesignManageController (/manage/design)
+
+PATCH localhost:8087/manage/design/theme
+PATCH localhost:8087/manage/design/banner
+
+SupportManageController (/manage/home)
+
+참고: 이 컨트롤러는 HomeManageController와 동일한 /manage/home 경로를 사용하므로 경로 충돌이 발생할 수 있습니다.
+
+GET     localhost:8087/manage/home/inquries
+PATCH   localhost:8087/manage/home/inquries/update
+POST    localhost:8087/manage/home/notice
+PATCH   localhost:8087/manage/home/notice/update
+DELETE  localhost:8087/manage/home/notice/delete
+POST    localhost:8087/manage/home/faq
+PATCH   localhost:8087/manage/home/faq/update
+DELETE  localhost:8087/manage/home/faq/delete
+
+UserCtrl (No base path)
+
+POST    localhost:8087/register
+GET     localhost:8087/login
+GET     localhost:8087/profile
+POST    localhost:8087/profile/update
+PUT     localhost:8087/profile/delete
+GET     localhost:8087/profile/wishlist
+PUT     localhost:8087/profile/wishlist/delete
+GET     localhost:8087/profile/bids
+GET     localhost:8087/profile/mileage
+GET     localhost:8087/profile/inquiries
+GET     localhost:8087/recover/id
+GET     localhost:8087/recover/password
+PUT     localhost:8087/recover/password/update
+GET     localhost:8087/sale/history
+
+MainController
+(URI 없음)
+
+MarketItemController (/virtualmarket/{marketId})
+
+GET     localhost:8087/virtualmarket/{marketId}/detail/{itemId}
+POST    localhost:8087/virtualmarket/{marketId}/new
+PUT     localhost:8087/virtualmarket/{marketId}/edit/{itemId}
+DELETE  localhost:8087/virtualmarket/{marketId}/{itemId}
+POST    localhost:8087/virtualmarket/{marketId}/{itemId}/purchase
+POST    localhost:8087/virtualmarket/{marketId}/{itemId}/images
+GET     localhost:8087/virtualmarket/{marketId}/{itemId}/images
+PUT     localhost:8087/virtualmarket/{marketId}/{itemId}/edit/image
+DELETE  localhost:8087/virtualmarket/{marketId}/{itemId}/image
+
+VirtualMarketController (/virtualmarket)
+
+GET     localhost:8087/virtualmarket/list
+GET     localhost:8087/virtualmarket/{marketId}
+POST    localhost:8087/virtualmarket/new
+PUT     localhost:8087/virtualmarket/{marketId}/edit
+DELETE  localhost:8087/virtualmarket/{marketId}

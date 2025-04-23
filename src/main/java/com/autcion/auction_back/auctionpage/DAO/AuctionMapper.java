@@ -1,13 +1,14 @@
 package com.autcion.auction_back.auctionpage.DAO;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.autcion.auction_back.auctionpage.DTO.AuctionImageDTO;
 import com.autcion.auction_back.auctionpage.DTO.AuctionItemDTO;
 import com.autcion.auction_back.common.BidsDTO;
 import com.autcion.auction_back.common.ConsignmentDTO;
-
-import java.util.List;
 
 @Mapper
 public interface AuctionMapper {
@@ -25,10 +26,10 @@ public interface AuctionMapper {
     public int updateAuctionItem(AuctionItemDTO itemDTO);
 
     // 5) 물품(경매) 삭제
-    public int deleteAuctionItem(int user_id, int itemId);
+    public int deleteAuctionItem(@Param("userId") int userId, @Param("itemId") int itemId);
 
     // 6) 물품(경매) 입찰
-    int placeBid(BidsDTO bid);
+    public int placeBid(BidsDTO bid);
 
     // 7) 물품(경매) 구매
     // This might mark the auction as completed or insert into auction_history, etc.

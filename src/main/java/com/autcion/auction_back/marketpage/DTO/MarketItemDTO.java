@@ -15,4 +15,5 @@ public class MarketItemDTO {
     private String description;
     private long price;
     private String status; // available, transaction, sold_out
+    private int market_id;
 }
