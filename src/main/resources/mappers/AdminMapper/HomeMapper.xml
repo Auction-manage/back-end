@@ -5,52 +5,101 @@
 
     <!-- getTradeCount --> 
 
-    <select id="getTradeCount">
+    <select id="getTradeCount"
+            resultType="Integer">
+        SELECT count(transaction_id)
+        FROM transaction_info;
     </select>
+
+    <!-- getTradeMoney --> 
+
+    <select id="getTradeMoney"
+            resultType="Integer">
+        SELECT sum(price)
+        FROM transaction_info;
+    </select>    
 
     <!-- getDepositWaitCount --> 
 
-    <select id="getDepositWaitCount">
+    <select id="getDepositWaitCount"
+            resultType="Integer">
+        SELECT count(transaction_id)
+        FROM transaction_info
+        WHERE current_status_id = 0;
     </select>
 
     <!-- getDepositCount --> 
 
-    <select id="getDepositCount">
+    <select id="getDepositCount"
+            resultType="Integer">
+        SELECT count(transaction_id)
+        FROM transaction_info
+        WHERE current_status_id = 1;
     </select>
 
     <!-- getDeliveryWaitCount --> 
 
-    <select id="getDeliveryWaitCount">
+    <select id="getDeliveryWaitCount"
+            resultType="Integer">
+        SELECT count(transaction_id)
+        FROM transaction_info
+        WHERE current_status_id = 2;
     </select>
 
     <!-- getDeliveringCount --> 
 
-    <select id="getDeliveringCount">
+    <select id="getDeliveringCount"
+            resultType="Integer">
+        SELECT count(transaction_id)
+        FROM transaction_info
+        WHERE current_status_id = 3;
     </select>
 
     <!-- getDeliveryEndCount --> 
 
-    <select id="getDeliveryEndCount">
+    <select id="getDeliveryEndCount"
+            resultType="Integer">
+        SELECT count(transaction_id)
+        FROM transaction_info
+        WHERE current_status_id = 4;
     </select>
 
     <!-- getCancelCount --> 
 
-    <select id="getCancelCount">
+    <select id="getCancelCount"
+            resultType="Integer">
+        SELECT count(transaction_id)
+        FROM transaction_info
+        WHERE current_status_id = 5;
     </select>
 
     <!-- getRefundCount --> 
 
-    <select id="getRefundCount">
+    <select id="getRefundCount"
+            resultType="Integer">
+        SELECT count(transaction_id)
+        FROM transaction_info
+        WHERE current_status_id = 6;
     </select>
 
     <!-- getReturnCount --> 
 
-    <select id="getReturnCount">
+    <select id="getReturnCount"
+            resultType="Integer">
+        SELECT count(transaction_id)
+        FROM transaction_info
+        WHERE current_status_id = 7;
     </select>
 
     <!-- getRecentTrade --> 
 
-    <select id="getRecentTrade">
+    <select id="getRecentTrade"
+            resultType="com.autcion.auction_back.EditPage.domain.TransactionInfoDTO">
+        SELECT *
+        FROM transaction_info
+        ORDER BY created_at DESC
+        LIMIT 5;
     </select>
+
     
 </mapper>

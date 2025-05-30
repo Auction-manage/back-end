@@ -24,7 +24,7 @@ import com.autcion.auction_back.EditPage.domain.NoticeDTO;
 import com.autcion.auction_back.EditPage.service.SupportManageService;
 
 @RestController
-@RequestMapping("/manage/home")
+@RequestMapping("/manage/support")
 public class SupportManageController {
 
     @Autowired

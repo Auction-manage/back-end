@@ -16,15 +16,15 @@ public interface UserManageMapper {
 
     public void updateUserList(UserDTO param);
 
-    public List<Object> getRankList1();
+    public List<BuyerRankDTO> getRankList1();
 
-    public List<Object> getRankList2();
+    public List<SellerRankDTO> getRankList2();
 
     public void updateRankList1(BuyerRankDTO param);
 
     public void updateRankList2(SellerRankDTO param);
 
-    public List<Object> getAllPoints();
+    public List<MileageDTO> getAllPoints();
 
     public void insertMileage(MileageDTO param);
 }

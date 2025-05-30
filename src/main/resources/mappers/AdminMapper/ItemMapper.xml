@@ -5,47 +5,95 @@
 
     <!-- getAllTrade --> 
 
-    <select id="getAllTrade">
+    <select id="getAllTrade"
+            resultType="TransactionInfoDTO">
+        SELECT *
+        FROM transaction_info;
     </select>
 
     <!-- getwaitTrade --> 
 
-    <select id="getwaitTrade">
+    <select id="getwaitTrade"
+            resultType="TransactionInfoDTO">
+        SELECT *
+        FROM transaction_info
+        WHERE current_status_id = 0;
     </select>
 
     <!-- getDepositTrade --> 
 
-    <select id="getDepositTrade">
+    <select id="getDepositTrade"
+            resultType="TransactionInfoDTO">
+        SELECT *
+        FROM transaction_info
+        WHERE current_status_id = 1;
     </select>
 
     <!-- getDeliveryWaitTrade --> 
 
-    <select id="getDeliveryWaitTrade">
+    <select id="getDeliveryWaitTrade"
+            resultType="TransactionInfoDTO">
+        SELECT *
+        FROM transaction_info
+        WHERE current_status_id = 2;
     </select>
 
     <!-- getDeliveringTrade --> 
 
-    <select id="getDeliveringTrade">
+    <select id="getDeliveringTrade"
+            resultType="TransactionInfoDTO">
+        SELECT *
+        FROM transaction_info
+        WHERE current_status_id = 3;
     </select>
 
     <!-- getDeliveryEndTrade --> 
 
-    <select id="getDeliveryEndTrade">
+    <select id="getDeliveryEndTrade"
+            resultType="TransactionInfoDTO">
+        SELECT *
+        FROM transaction_info
+        WHERE current_status_id = 4;
     </select>
 
     <!-- getcancelTrade --> 
 
-    <select id="getcancelTrade">
+    <select id="getcancelTrade"
+            resultType="TransactionInfoDTO">
+        SELECT *
+        FROM transaction_info
+        WHERE current_status_id = 5;
     </select>
 
     <!-- getrefundTrade --> 
 
-    <select id="getrefundTrade">
+    <select id="getrefundTrade"
+            resultType="TransactionInfoDTO">
+        SELECT *
+        FROM transaction_info
+        WHERE current_status_id = 6;
     </select>
 
     <!-- getreturnTrade --> 
 
-    <select id="getreturnTrade">
+    <select id="getreturnTrade"
+            resultType="TransactionInfoDTO">
+        SELECT *
+        FROM transaction_info
+        WHERE current_status_id = 7;
     </select>
-                                    
+
+    <!-- updateWaitTrade --> 
+
+    <update id="updateTrade"
+            parameterType="com.autcion.auction_back.EditPage.domain.TransactionInfoDTO">
+        UPDATE transaction_info
+        SET current_status_id = #{current_status_id},
+            tracking_number1 = #{tracking_number1},
+            tracking_number2 = #{tracking_number2},
+            tracking_number3 = #{tracking_number3},
+            tracking_number4 = #{tracking_number4}
+        WHERE transaction_id = #{transaction_id}
+    </update>
+
 </mapper>

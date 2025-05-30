@@ -5,12 +5,20 @@
 
     <!-- getUserList --> 
 
-    <select id="getUserList">
+    <select id="getUserList"
+            resultType="com.autcion.auction_back.EditPage.domain.UserDTO">
+        SELECT *
+        FROM users;
     </select>
 
     <!-- updateUserList --> 
 
-    <update id="updateUserList">
+    <update id="updateUserList"
+            parameterType="com.autcion.auction_back.EditPage.domain.UserDTO">
+        UPDATE users
+        SET seller_rank = #{seller_rank},
+            buyer_rank = #{buyer_rank}
+        WHERE user_id = #{user_id};
     </update>
 
     <!-- getRankList1 --> 
@@ -57,7 +65,7 @@
             resultType="com.autcion.auction_back.MainPage.domain.MileageDTO">
         SELECT *
         FROM mileage
-        ORDER BY DESC;
+        ORDER BY created_at DESC;
     </select>
 
     <!-- insertMileage --> 

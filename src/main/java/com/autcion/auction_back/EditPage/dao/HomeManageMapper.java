@@ -4,10 +4,14 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.autcion.auction_back.EditPage.domain.TransactionInfoDTO;
+
 @Mapper
 public interface HomeManageMapper {
     
     public int getTradeCount();
+
+    public int getTradeMoney();
 
     public int getDepositWaitCount();
 
@@ -25,5 +29,5 @@ public interface HomeManageMapper {
 
     public int getReturnCount();
 
-    public List<Object> getRecentTrade();
+    public List<TransactionInfoDTO> getRecentTrade();
 }

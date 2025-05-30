@@ -4,24 +4,29 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.autcion.auction_back.EditPage.domain.TransactionInfoDTO;
+
 @Mapper
 public interface ItemManageMapper {
     
-    public List<Object> getAllTrade();
+    public List<TransactionInfoDTO> getAllTrade();
 
-    public List<Object> getwaitTrade();
+    public List<TransactionInfoDTO> getwaitTrade();
 
-    public List<Object> getDepositTrade();
+    public List<TransactionInfoDTO> getDepositTrade();
 
-    public List<Object> getDeliveryWaitTrade();
+    public List<TransactionInfoDTO> getDeliveryWaitTrade();
 
-    public List<Object> getDeliveringTrade();
+    public List<TransactionInfoDTO> getDeliveringTrade();
 
-    public List<Object> getDeliveryEndTrade();
+    public List<TransactionInfoDTO> getDeliveryEndTrade();
 
-    public List<Object> getcancelTrade();
+    public List<TransactionInfoDTO> getcancelTrade();
 
-    public List<Object> getrefundTrade();
+    public List<TransactionInfoDTO> getrefundTrade();
 
-    public List<Object> getreturnTrade();
+    public List<TransactionInfoDTO> getreturnTrade();
+
+    public void updateTrade(TransactionInfoDTO param);
+
 }
